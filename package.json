@@ -13,7 +13,6 @@
     "gatsby-plugin-google-analytics": "^2.0.0-beta.1",
     "gatsby-plugin-manifest": "^2.0.2-beta.1",
     "gatsby-plugin-netlify": "^2.0.0-beta.1",
-    "gatsby-plugin-netlify-cms": "^2.0.1",
     "gatsby-plugin-nprogress": "^2.0.0-beta.1",
     "gatsby-plugin-offline": "^2.0.0-beta.1",
     "gatsby-plugin-preact": "^2.0.0-beta.3",
@@ -30,8 +29,7 @@
     "gatsby-remark-smartypants": "^2.0.0-beta.1",
     "gatsby-source-filesystem": "^2.0.1-beta.1",
     "gatsby-transformer-remark": "^2.1.1-beta.1",
-    "gatsby-transformer-sharp": "^2.1.1-beta.1",
-    "netlify-cms": "^2.0.10"
+    "gatsby-transformer-sharp": "^2.1.1-beta.1"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-svg-core": "1.2.2",
