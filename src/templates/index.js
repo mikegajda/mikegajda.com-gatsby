@@ -19,7 +19,6 @@ const Template = ({ data, location }) => (
           data={get(data, 'post')}
           options={{
             isIndex: false,
-            adsense: get(data, 'site.meta.adsense'),
           }}
         />
       ) : (
@@ -31,7 +30,7 @@ const Template = ({ data, location }) => (
 export default Template
 
 export const pageQuery = graphql`
-  query PostByPath($path: String!) {
+  query PostByPath($absolutePath: String!) {
     site {
       meta: siteMetadata {
         title
@@ -42,21 +41,37 @@ export const pageQuery = graphql`
         adsense
       }
     }
-    post: markdownRemark(frontmatter: { path: { eq: $path } }) {
-      id
-      html
-      frontmatter {
-        layout
-        title
-        path
-        category
-        tags
-        description
-        date(formatString: "YYYY/MM/DD")
-        image {
-          childImageSharp {
-            fixed(width: 500) {
-              ...GatsbyImageSharpFixed_withWebp
+    post: allFile(filter: { absolutePath: { eq: $absolutePath } }) {
+      edges {
+        node {
+          id
+          relativePath: relativePath
+          relativeDirectory: relativeDirectory
+          absolutePath
+          name
+          ext
+          birthTime(formatString: "YYYY-MM-DD hh:mm:ss")
+          changeTime(formatString: "YYYY-MM-DD hh:mm:ss")
+          remark: childMarkdownRemark {
+            id
+            html
+            frontmatter {
+              layout
+              title
+              date
+              path
+              publishDate: date
+              publishPath: path
+              category
+              tags
+              description
+              image {
+                childImageSharp {
+                  fixed(width: 500) {
+                    ...GatsbyImageSharpFixed_withWebp
+                  }
+                }
+              }
             }
           }
         }

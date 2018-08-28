@@ -11,17 +11,36 @@ exports.createPages = ({ graphql, actions }) => {
       graphql(
         `
           {
-            allFile(filter: { extension: { regex: "/md|js/" } }, limit: 1000) {
+            allFile(
+              filter: { internal: { mediaType: { in: ["text/markdown"] } } }
+            ) {
               edges {
                 node {
-                  id
-                  name: sourceInstanceName
-                  path: absolutePath
+                  id: absolutePath
+                  relativePath
+                  relativeDirectory
+                  absolutePath
+                  sourceInstanceName
+                  name
+                  ext
+                  birthTime(formatString: "YYYY-MM-DD hh:mm:ss")
+                  changeTime(formatString: "YYYY-MM-DD hh:mm:ss")
                   remark: childMarkdownRemark {
                     id
+                    html
                     frontmatter {
                       layout
-                      path
+                      title
+                      publishDate: date
+                      publishPath: path
+                      category
+                      tags
+                      description
+                      image {
+                        childImageSharp {
+                          id
+                        }
+                      }
                     }
                   }
                 }
@@ -36,27 +55,30 @@ exports.createPages = ({ graphql, actions }) => {
         }
 
         // Create blog posts & pages.
-        const items = data.allFile.edges
-        const posts = items.filter(({ node }) => /posts/.test(node.name))
+        const posts = data.allFile.edges
+        //const posts = items.filter(({ node }) => /posts/.test(node.name))
         each(posts, ({ node }) => {
           if (!node.remark) return
-          const { path } = node.remark.frontmatter
+          const absolutePath = node.absolutePath
           createPage({
-            path,
+            path: `/posts/${node.relativeDirectory}/${node.name}`,
             component: PostTemplate,
+            context: {
+              absolutePath,
+            },
           })
         })
 
-        const pages = items.filter(({ node }) => /page/.test(node.name))
-        each(pages, ({ node }) => {
-          if (!node.remark) return
-          const { name } = path.parse(node.path)
-          const PageTemplate = path.resolve(node.path)
-          createPage({
-            path: name,
-            component: PageTemplate,
-          })
-        })
+        // const pages = items.filter(({ node }) => /page/.test(node.name))
+        // each(pages, ({ node }) => {
+        //   if (!node.remark) return
+        //   const { name } = path.parse(node.path)
+        //   const PageTemplate = path.resolve(node.path)
+        //   createPage({
+        //     path: name,
+        //     component: PageTemplate,
+        //   })
+        // })
       })
     )
   })
