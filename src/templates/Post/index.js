@@ -24,24 +24,20 @@ const Post = ({ data, options }) => {
   const fixed = get(image, 'childImageSharp.fixed')
 
   return (
-    <div className="article" key={path}>
-      <div className="container">
-        <div className="info">
-          <Link style={{ boxShadow: 'none' }} to={path}>
-            <h1>{title}</h1>
-            <time dateTime={date}>{date}</time>
-          </Link>
-          {Badges({ items: [category], primary: true })}
-          {Badges({ items: tags })}
-        </div>
-        <div className="content">
-          <p>{description}</p>
-          {fixed ? (
-            <Img fixed={fixed} style={{ display: 'block', margin: '0 auto' }} />
-          ) : (
-            ''
-          )}
-        </div>
+    <div className="card m-4" key={path}>
+      <div className="card-header">
+        <Link style={{ boxShadow: 'none' }} to={path}>
+          <h1>{title}</h1>
+          <time dateTime={date}>{date}</time>
+        </Link>
+      </div>
+      <div className="card-body">
+        <p>{description}</p>
+        {fixed ? (
+          <Img fixed={fixed} style={{ display: 'block', margin: '0 auto' }} />
+        ) : (
+          ''
+        )}
         <div
           className="content"
           dangerouslySetInnerHTML={{
