@@ -39,7 +39,7 @@ $container-max-widths: (
   sm: 540px,
   md: 640px,
   lg: 710px,
-  xl: 780px,
+  xl: 800px,
 ) !default;
 
 // Body
@@ -75,7 +75,7 @@ body {
 }
 
 p {
-  font-size: 16px;
+  font-size: 1.25rem;
   line-height: 1.5;
   margin-bottom: 20px;
 }

@@ -32,8 +32,8 @@ exports.createPages = ({ graphql, actions }) => {
                     frontmatter {
                       layout
                       title
+                      date(formatString: "YYYY/MM/DD")
                       publishDate: date
-                      publishPath: path
                       category
                       tags
                       description
@@ -55,6 +55,17 @@ exports.createPages = ({ graphql, actions }) => {
           reject(errors)
         }
 
+        // Create blog posts & pages.
+        const posts = data.allFile.edges
+        console.log('POSTS', posts)
+        //const posts = items.filter(({ node }) => /posts/.test(node.name))
+
+        data.allFile.edges.sort(function(a, b) {
+          a = new Date(a.node.remark.frontmatter.publishDate)
+          b = new Date(b.node.remark.frontmatter.publishDate)
+          return a > b ? -1 : a < b ? 1 : 0
+        })
+
         createPaginatedPages({
           edges: data.allFile.edges,
           createPage: createPage,
@@ -63,10 +74,6 @@ exports.createPages = ({ graphql, actions }) => {
           pathPrefix: '', // This is optional and defaults to an empty string if not used
           context: {}, // This is optional and defaults to an empty object if not used
         })
-
-        // Create blog posts & pages.
-        const posts = data.allFile.edges
-        //const posts = items.filter(({ node }) => /posts/.test(node.name))
         each(posts, ({ node }) => {
           if (!node.remark) return
           const absolutePath = node.absolutePath

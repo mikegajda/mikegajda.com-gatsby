@@ -1,11 +1,15 @@
 @import 'scss/colors.scss';
 @import 'scss/fonts.scss';
 
+.card-header {
+	border-bottom: 2px $mikeGreen solid;
+}
 .card-header a {
   color: $gray-700;
+
 }
 .card-header a:hover {
-  color: $gray-900
+  color: $mikeGreen
 }
 // .article {
 //   padding-top: 40px;

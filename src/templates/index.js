@@ -2,7 +2,7 @@ import { graphql, Link } from 'gatsby'
 import React from 'react'
 import get from 'lodash/get'
 
-import Post from 'templates/Post'
+import { Post } from 'templates/Post'
 import Meta from 'components/Meta'
 import Layout from 'components/Layout'
 
@@ -26,19 +26,8 @@ const BlogIndex = ({ data, pathContext }) => {
   return (
     <Layout location={index === 0 ? '/' : index.toString()}>
       <Meta site={get(data, 'site.meta')} />
-      <ul>
-        {posts.map(post => (
-          <li key={post.node.id}>
-            <Link
-              to={`${post.node.sourceInstanceName}/${
-                post.node.relativeDirectory
-              }/${post.node.name}`}
-            >
-              {post.node.name}
-            </Link>
-          </li>
-        ))}
-      </ul>
+      <div className="container px-0">{posts.map(post => Post(post.node))}</div>
+
       <div className="previousLink">
         <NavLink test={first} url={previousUrl} text="Go to Previous Page" />
       </div>

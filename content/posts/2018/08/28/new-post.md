@@ -1,10 +1,9 @@
 ---
-title: My Second Post!
-date: '2015-05-06T23:46:37.121Z'
-layout: post
-path: '/my-second-post2/'
-category: FrontEnd
-description: 'Civil society; save lives pathway to a better life public-private partnerships solution, tackle, protect UNHCR social movement Jane Addams sustainable campaign respond equality.'
+title: 'A Second, smaller post'
+date: '2018-08-28T23:46:37.121Z'
+layout: 'post'
+category: Front End
+tags:
 ---
 
 Wow! I love blogging so much already.

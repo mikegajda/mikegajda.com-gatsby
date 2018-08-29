@@ -9,9 +9,43 @@ import Footer from 'components/Footer'
 import Layout from 'components/Layout'
 import './style.scss'
 
-const Post = ({ data, options }) => {
-  console.log('DATA', data)
-  console.log('PROPS')
+export const Post = node => {
+  console.log('Post received this node=', node)
+  const html = node.remark.html
+  const {
+    category,
+    tags,
+    description,
+    title,
+    path,
+    date,
+    image,
+  } = node.remark.frontmatter
+  const link = `${node.sourceInstanceName}/${node.relativeDirectory}/${
+    node.name
+  }`
+
+  return (
+    <article className="card my-4 rounded-bottom" key={node.absolutePath}>
+      <div className="card-header mx-3 px-0 bg-white">
+        <time className="text-muted" dateTime={date}>
+          {date}
+        </time>
+        <span className="text-muted float-right">{category}</span>
+        <h1 className="mb-0">
+          <Link className="mb-0" to={link}>
+            {title}
+          </Link>
+        </h1>
+      </div>
+      <div className="card-body">
+        <div className="content" dangerouslySetInnerHTML={{ __html: html }} />
+      </div>
+    </article>
+  )
+}
+
+const PostContainer = ({ data, options }) => {
   const {
     category,
     tags,
@@ -23,9 +57,11 @@ const Post = ({ data, options }) => {
   } = data.post.edges[0].node.remark.frontmatter
   const isIndex = false
   // const { isIndex, adsense } = options
-  const html = get(data, 'html')
+  const html = get(data.post.edges[0].node.remark, 'html')
   const isMore = isIndex && !!html.match('<!--more-->')
   // const fixed = get(image, 'childImageSharp.fixed')
+
+  let node = data.post.edges[0].node
 
   return (
     <Layout
@@ -34,34 +70,12 @@ const Post = ({ data, options }) => {
       }/${data.post.edges[0].node.name}`}
     >
       <Meta site={get(data, 'site.meta')} />
-      <div className="container px-0 my-2 card" key={path}>
-        <div className="card-header">
-          <h2 className="mb-0">
-            <Link to={path}>{title}</Link>
-            <div className="text-muted float-sm-right">
-              <small>{Badges({ items: [category], primary: true })}</small>
-            </div>
-          </h2>
-          <div>
-            <time dateTime={date}>{date}</time>
-          </div>
-        </div>
-        <div className="card-body">
-          <p>{description}</p>
-          <div
-            className="content"
-            dangerouslySetInnerHTML={{
-              __html: isMore ? getDescription(html) : html,
-            }}
-          />
-          {isMore ? Button({ path, label: 'MORE', primary: true }) : ''}
-        </div>
-      </div>
+      <div className="container px-0">{Post(node)}</div>
     </Layout>
   )
 }
 
-export default Post
+export default PostContainer
 
 const getDescription = body => {
   body = body.replace(/<blockquote>/g, '<blockquote class="blockquote">')
@@ -90,9 +104,10 @@ const Badges = ({ items, primary }) =>
   map(items, (item, i) => {
     return (
       <span
-        className={`p-2 badge ${primary ? 'badge-primary' : 'badge-secondary'}`}
+        className={`p-2 badge ${primary ? 'badge-primary' : 'badge-white'}`}
         key={i}
       >
+        <i class="fa fa-tags" />
         {item}
       </span>
     )
@@ -127,10 +142,8 @@ export const pageQuery = graphql`
             frontmatter {
               layout
               title
-              date
-              path
-              publishDate: date
-              publishPath: path
+              date(formatString: "YYYY/MM/DD")
+              publishDate: date(formatString: "YYYY/MM/DD")
               category
               tags
               description
