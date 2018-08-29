@@ -2,13 +2,13 @@
 @import 'scss/fonts.scss';
 
 .card-header {
-	border-bottom: 2px $mikeGreen solid;
+	// border-bottom: 2px $mikeGreen solid;
 }
-.card-header a {
+.card-body h1 a {
   color: $gray-700;
 
 }
-.card-header a:hover {
+.card-body h1 a:hover {
   color: $mikeGreen
 }
 // .article {

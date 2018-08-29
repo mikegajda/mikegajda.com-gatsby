@@ -27,18 +27,18 @@ export const Post = node => {
 
   return (
     <article className="card my-4 rounded-bottom" key={node.absolutePath}>
-      <div className="card-header mx-3 px-0 bg-white">
+      <div className="card-header">
         <time className="text-muted" dateTime={date}>
           {date}
         </time>
         <span className="text-muted float-right">{category}</span>
-        <h1 className="mb-0">
-          <Link className="mb-0" to={link}>
+      </div>
+      <div className="card-body">
+        <h1 className="">
+          <Link className="" to={link}>
             {title}
           </Link>
         </h1>
-      </div>
-      <div className="card-body">
         <div className="content" dangerouslySetInnerHTML={{ __html: html }} />
       </div>
     </article>
