@@ -1,7 +1,8 @@
 const each = require('lodash/each')
 const Promise = require('bluebird')
 const path = require('path')
-const PostTemplate = path.resolve('./src/templates/index.js')
+const PostTemplate = path.resolve('./src/templates/Post/index.js')
+const createPaginatedPages = require('gatsby-paginate')
 
 exports.createPages = ({ graphql, actions }) => {
   const { createPage } = actions
@@ -53,6 +54,15 @@ exports.createPages = ({ graphql, actions }) => {
           console.log(errors)
           reject(errors)
         }
+
+        createPaginatedPages({
+          edges: data.allFile.edges,
+          createPage: createPage,
+          pageTemplate: 'src/templates/index.js',
+          pageLength: 2, // This is optional and defaults to 10 if not used
+          pathPrefix: '', // This is optional and defaults to an empty string if not used
+          context: {}, // This is optional and defaults to an empty object if not used
+        })
 
         // Create blog posts & pages.
         const posts = data.allFile.edges

@@ -3,12 +3,15 @@ import get from 'lodash/get'
 import React from 'react'
 import map from 'lodash/map'
 import Img from 'gatsby-image'
+import Meta from '../../components/Meta/index'
 
 import Footer from 'components/Footer'
+import Layout from 'components/Layout'
 import './style.scss'
 
 const Post = ({ data, options }) => {
   console.log('DATA', data)
+  console.log('PROPS')
   const {
     category,
     tags,
@@ -17,35 +20,20 @@ const Post = ({ data, options }) => {
     path,
     date,
     image,
-  } = data.edges[0].node.remark.frontmatter
-  const { isIndex, adsense } = options
+  } = data.post.edges[0].node.remark.frontmatter
+  const isIndex = false
+  // const { isIndex, adsense } = options
   const html = get(data, 'html')
   const isMore = isIndex && !!html.match('<!--more-->')
-  const fixed = get(image, 'childImageSharp.fixed')
+  // const fixed = get(image, 'childImageSharp.fixed')
 
-  if (fixed) {
-    return (
-      <div className="container px-0 my-3 card" key={path}>
-        <Img
-          className="card-img-top"
-          fixed={fixed}
-          style={{ display: 'block', margin: '0 auto' }}
-        />
-        <div className="card-header">
-          <h2>
-            <span>{title}</span>
-            <small className="text-muted float-sm-right">
-              {Badges({ items: [category], primary: true })}
-            </small>
-          </h2>
-          <div>
-            <time dateTime={date}>{date}</time>
-          </div>
-        </div>
-      </div>
-    )
-  } else {
-    return (
+  return (
+    <Layout
+      location={`${data.post.edges[0].node.sourceInstanceName}/${
+        data.post.edges[0].node.relativeDirectory
+      }/${data.post.edges[0].node.name}`}
+    >
+      <Meta site={get(data, 'site.meta')} />
       <div className="container px-0 my-2 card" key={path}>
         <div className="card-header">
           <h2 className="mb-0">
@@ -69,8 +57,8 @@ const Post = ({ data, options }) => {
           {isMore ? Button({ path, label: 'MORE', primary: true }) : ''}
         </div>
       </div>
-    )
-  }
+    </Layout>
+  )
 }
 
 export default Post
@@ -109,3 +97,54 @@ const Badges = ({ items, primary }) =>
       </span>
     )
   })
+
+export const pageQuery = graphql`
+  query PostByPath($absolutePath: String!) {
+    site {
+      meta: siteMetadata {
+        title
+        description
+        url: siteUrl
+        author
+        twitter
+        adsense
+      }
+    }
+    post: allFile(filter: { absolutePath: { eq: $absolutePath } }) {
+      edges {
+        node {
+          id
+          relativePath: relativePath
+          relativeDirectory: relativeDirectory
+          absolutePath
+          name
+          ext
+          birthTime(formatString: "YYYY-MM-DD hh:mm:ss")
+          changeTime(formatString: "YYYY-MM-DD hh:mm:ss")
+          remark: childMarkdownRemark {
+            id
+            html
+            frontmatter {
+              layout
+              title
+              date
+              path
+              publishDate: date
+              publishPath: path
+              category
+              tags
+              description
+              image {
+                childImageSharp {
+                  fixed(width: 500) {
+                    ...GatsbyImageSharpFixed_withWebp
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`

@@ -1,36 +1,57 @@
-import { graphql } from 'gatsby'
-import get from 'lodash/get'
+import { graphql, Link } from 'gatsby'
 import React from 'react'
+import get from 'lodash/get'
 
 import Post from 'templates/Post'
 import Meta from 'components/Meta'
 import Layout from 'components/Layout'
-import Page from 'templates/Page'
 
-const Template = ({ data, location }) => (
-  <div>
-    <Layout location={location}>
-      <Meta
-        title={get(data, 'post.frontmatter.title')}
-        site={get(data, 'site.meta')}
-      />
-      {get(data, 'post.frontmatter.layout') != 'page' ? (
-        <Post
-          data={get(data, 'post')}
-          options={{
-            isIndex: false,
-          }}
-        />
-      ) : (
-        <Page {...this.props} />
-      )}
+const NavLink = props => {
+  if (!props.test) {
+    return <Link to={props.url}>{props.text}</Link>
+  } else {
+    return <span>{props.text}</span>
+  }
+}
+
+const BlogIndex = ({ data, pathContext }) => {
+  console.log('DATA BLOG INDEX', data)
+  const posts = pathContext.group
+  console.log('DATA BLOG PATHCONTEXT', pathContext)
+
+  const { group, index, first, last, pageCount } = pathContext
+  const previousUrl = index - 1 == 1 ? '' : (index - 1).toString()
+  const nextUrl = (index + 1).toString()
+
+  return (
+    <Layout location={index === 0 ? '/' : index.toString()}>
+      <Meta site={get(data, 'site.meta')} />
+      <ul>
+        {posts.map(post => (
+          <li key={post.node.id}>
+            <Link
+              to={`${post.node.sourceInstanceName}/${
+                post.node.relativeDirectory
+              }/${post.node.name}`}
+            >
+              {post.node.name}
+            </Link>
+          </li>
+        ))}
+      </ul>
+      <div className="previousLink">
+        <NavLink test={first} url={previousUrl} text="Go to Previous Page" />
+      </div>
+      <div className="nextLink">
+        <NavLink test={last} url={nextUrl} text="Go to Next Page" />
+      </div>
     </Layout>
-  </div>
-)
-export default Template
+  )
+}
 
+export default BlogIndex
 export const pageQuery = graphql`
-  query PostByPath($absolutePath: String!) {
+  query IndexPosts {
     site {
       meta: siteMetadata {
         title
@@ -39,42 +60,6 @@ export const pageQuery = graphql`
         author
         twitter
         adsense
-      }
-    }
-    post: allFile(filter: { absolutePath: { eq: $absolutePath } }) {
-      edges {
-        node {
-          id
-          relativePath: relativePath
-          relativeDirectory: relativeDirectory
-          absolutePath
-          name
-          ext
-          birthTime(formatString: "YYYY-MM-DD hh:mm:ss")
-          changeTime(formatString: "YYYY-MM-DD hh:mm:ss")
-          remark: childMarkdownRemark {
-            id
-            html
-            frontmatter {
-              layout
-              title
-              date
-              path
-              publishDate: date
-              publishPath: path
-              category
-              tags
-              description
-              image {
-                childImageSharp {
-                  fixed(width: 500) {
-                    ...GatsbyImageSharpFixed_withWebp
-                  }
-                }
-              }
-            }
-          }
-        }
       }
     }
   }
