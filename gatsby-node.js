@@ -32,6 +32,7 @@ exports.createPages = ({ graphql, actions }) => {
                     frontmatter {
                       layout
                       title
+                      link
                       date(formatString: "YYYY/MM/DD")
                       publishDate: date
                       category

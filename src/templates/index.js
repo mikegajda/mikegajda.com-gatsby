@@ -3,6 +3,7 @@ import React from 'react'
 import get from 'lodash/get'
 
 import { Post } from 'templates/Post'
+import { LinkPost } from 'templates/LinkPost'
 import Meta from 'components/Meta'
 import Layout from 'components/Layout'
 
@@ -17,7 +18,6 @@ const NavLink = props => {
 const BlogIndex = ({ data, pathContext }) => {
   console.log('DATA BLOG INDEX', data)
   const posts = pathContext.group
-  console.log('DATA BLOG PATHCONTEXT', pathContext)
 
   const { group, index, first, last, pageCount } = pathContext
   const previousUrl = index - 1 == 1 ? '' : (index - 1).toString()
@@ -26,7 +26,18 @@ const BlogIndex = ({ data, pathContext }) => {
   return (
     <Layout location={index === 0 ? '/' : index.toString()}>
       <Meta site={get(data, 'site.meta')} />
-      <div className="container px-0">{posts.map(post => Post(post.node))}</div>
+      <div className="container px-0">
+        {posts.map(function(post) {
+          switch (post.node.remark.frontmatter.layout) {
+            case 'Post':
+              return Post(post.node)
+            case 'LinkPost':
+              return LinkPost(post.node)
+            default:
+              return Post(post.node)
+          }
+        })}
+      </div>
 
       <div className="previousLink">
         <NavLink test={first} url={previousUrl} text="Go to Previous Page" />

@@ -2,7 +2,7 @@
 title: 'All About Gutenberg'
 date: '2015-05-01T22:12:03.284Z'
 image: ./Gutenberg.jpg
-layout: 'post'
+layout: 'Post'
 description: 'Johannes Gensfleisch zur Laden zum Gutenberg (c. 1398 – 1468) was a German blacksmith, goldsmith, printer, and publisher who introduced printing to Europe.'
 category: Typography
 tags:

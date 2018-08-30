@@ -9,8 +9,8 @@ import Footer from 'components/Footer'
 import Layout from 'components/Layout'
 import './style.scss'
 
-export const Post = node => {
-  console.log('Post received this node=', node)
+export const LinkPost = node => {
+  console.log('LinkPost received this node=', node)
   const html = node.remark.html
   const {
     category,
@@ -20,22 +20,27 @@ export const Post = node => {
     path,
     date,
     image,
+    link,
   } = node.remark.frontmatter
-  const link = `${node.sourceInstanceName}/${node.relativeDirectory}/${
+  const url = `${node.sourceInstanceName}/${node.relativeDirectory}/${
     node.name
   }`
+
+  let prettyLink = link.replace(/(^\w+:|^)\/\//, '').replace(/^www\./, '')
 
   return (
     <article className="card my-4 rounded-bottom" key={node.absolutePath}>
       <div className="card-header">
-        <span className="text-muted">{category}</span>
-        <time className="text-muted float-right" dateTime={date}>
-          {date}
-        </time>
+        <a href={link} className="text-muted">
+          <small>
+            <i class="fa fa-external-link mr-1" aria-hidden="true" />
+          </small>
+          {prettyLink}
+        </a>
       </div>
       <div className="card-body">
         <h1 className="">
-          <Link className="" to={link}>
+          <Link className="" to={url}>
             {title}
           </Link>
         </h1>
@@ -45,7 +50,7 @@ export const Post = node => {
   )
 }
 
-const PostContainer = ({ data, options }) => {
+const LinkPostContainer = ({ data, options }) => {
   const {
     category,
     tags,
@@ -75,7 +80,7 @@ const PostContainer = ({ data, options }) => {
   )
 }
 
-export default PostContainer
+export default LinkPostContainer
 
 const getDescription = body => {
   body = body.replace(/<blockquote>/g, '<blockquote class="blockquote">')
@@ -114,7 +119,7 @@ const Badges = ({ items, primary }) =>
   })
 
 export const pageQuery = graphql`
-  query PostByPath($absolutePath: String!) {
+  query LinkPostByPath($absolutePath: String!) {
     site {
       meta: siteMetadata {
         title
@@ -140,8 +145,8 @@ export const pageQuery = graphql`
             id
             html
             frontmatter {
-              layout
               title
+              layout
               date(formatString: "YYYY/MM/DD")
               publishDate: date(formatString: "YYYY/MM/DD")
               category

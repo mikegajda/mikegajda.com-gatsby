@@ -1,8 +1,9 @@
 ---
 title: 'A Second, smaller post'
-date: '2018-08-28T23:46:37.121Z'
-layout: 'Post'
+date: '2018-08-29T23:46:37.121Z'
+layout: LinkPost
 category: Front End
+link: 'https://www.wsj.com/articles/new-on-parents-to-do-list-checking-childrens-credit-history-1535457603'
 ---
 
 Wow! I love blogging so much already.
