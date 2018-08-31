@@ -1,4 +1,4 @@
-import { Link } from 'gatsby'
+import { Link, graphql } from 'gatsby'
 import get from 'lodash/get'
 import React from 'react'
 import map from 'lodash/map'
@@ -75,7 +75,7 @@ const LinkPostContainer = ({ data, options }) => {
       }/${data.post.edges[0].node.name}`}
     >
       <Meta site={get(data, 'site.meta')} />
-      <div className="container px-0">{Post(node)}</div>
+      <div className="container px-0">{LinkPost(node)}</div>
     </Layout>
   )
 }

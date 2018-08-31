@@ -70,7 +70,7 @@ const ImageContainer = ({ data, options }) => {
       }/${data.post.edges[0].node.name}`}
     >
       <Meta site={get(data, 'site.meta')} />
-      <div className="container px-0">{Post(node)}</div>
+      <div className="container px-0">{Image(node)}</div>
     </Layout>
   )
 }
@@ -150,8 +150,14 @@ export const pageQuery = graphql`
               link
               image {
                 childImageSharp {
-                  fixed(width: 500) {
-                    ...GatsbyImageSharpFixed_withWebp
+                  fluid(maxWidth: 738) {
+                    tracedSVG
+                    aspectRatio
+                    src
+                    srcSet
+                    srcWebp
+                    srcSetWebp
+                    sizes
                   }
                 }
               }

@@ -1,7 +1,9 @@
 const each = require('lodash/each')
 const Promise = require('bluebird')
 const path = require('path')
-const PostTemplate = path.resolve('./src/templates/Post/index.js')
+const Post = path.resolve('./src/templates/Post/index.js')
+const LinkPost = path.resolve('./src/templates/LinkPost/index.js')
+const Image = path.resolve('./src/templates/Image/index.js')
 const createPaginatedPages = require('gatsby-paginate')
 
 exports.createPages = ({ graphql, actions }) => {
@@ -66,34 +68,62 @@ exports.createPages = ({ graphql, actions }) => {
 
         // Create blog posts & pages.
         const posts = data.allFile.edges
-        console.log('POSTS', posts)
+        console.log('POSTS LENGTH', posts.length)
         //const posts = items.filter(({ node }) => /posts/.test(node.name))
 
-        data.allFile.edges.sort(function(a, b) {
+        posts.sort(function(a, b) {
           a = new Date(a.node.remark.frontmatter.publishDate)
           b = new Date(b.node.remark.frontmatter.publishDate)
           return a > b ? -1 : a < b ? 1 : 0
         })
 
         createPaginatedPages({
-          edges: data.allFile.edges,
+          edges: posts,
           createPage: createPage,
           pageTemplate: 'src/templates/index.js',
           pageLength: 2, // This is optional and defaults to 10 if not used
           pathPrefix: '', // This is optional and defaults to an empty string if not used
           context: {}, // This is optional and defaults to an empty object if not used
         })
-        // each(posts, ({ node }) => {
-        //   if (!node.remark) return
-        //   const absolutePath = node.absolutePath
-        //   createPage({
-        //     path: `/posts/${node.relativeDirectory}/${node.name}`,
-        //     component: PostTemplate,
-        //     context: {
-        //       absolutePath,
-        //     },
-        //   })
-        // })
+        each(posts, ({ node }) => {
+          console.log('node = ', node.remark.frontmatter.title)
+          if (!node.remark) return
+          const absolutePath = node.absolutePath
+          switch (node.remark.frontmatter.layout) {
+            case 'Post':
+              return createPage({
+                path: `/posts/${node.relativeDirectory}/${node.name}`,
+                component: Post,
+                context: {
+                  absolutePath,
+                },
+              })
+            case 'LinkPost':
+              return createPage({
+                path: `/posts/${node.relativeDirectory}/${node.name}`,
+                component: LinkPost,
+                context: {
+                  absolutePath,
+                },
+              })
+            case 'Image':
+              return createPage({
+                path: `/images/${node.relativeDirectory}/${node.name}`,
+                component: Image,
+                context: {
+                  absolutePath,
+                },
+              })
+            default:
+              return createPage({
+                path: `/posts/${node.relativeDirectory}/${node.name}`,
+                component: Post,
+                context: {
+                  absolutePath,
+                },
+              })
+          }
+        })
 
         // const pages = items.filter(({ node }) => /page/.test(node.name))
         // each(pages, ({ node }) => {

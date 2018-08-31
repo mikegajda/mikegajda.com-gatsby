@@ -154,6 +154,19 @@ export const pageQuery = graphql`
               category
               tags
               description
+              image {
+                childImageSharp {
+                  fluid(maxWidth: 738) {
+                    tracedSVG
+                    aspectRatio
+                    src
+                    srcSet
+                    srcWebp
+                    srcSetWebp
+                    sizes
+                  }
+                }
+              }
             }
           }
         }
