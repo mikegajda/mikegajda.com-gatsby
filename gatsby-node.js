@@ -40,7 +40,15 @@ exports.createPages = ({ graphql, actions }) => {
                       description
                       image {
                         childImageSharp {
-                          id
+                          fluid(maxWidth: 738) {
+                            tracedSVG
+                            aspectRatio
+                            src
+                            srcSet
+                            srcWebp
+                            srcSetWebp
+                            sizes
+                          }
                         }
                       }
                     }

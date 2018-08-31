@@ -85,6 +85,22 @@ img {
   max-width: 100%;
 }
 
-img:hover {
-  animation: pulse 0.5s;
+.card {
+   box-shadow: 0 .15rem .5rem rgba(0,0,0,.15)!important;
+}
+
+nav {
+  box-shadow: 0 .15rem .5rem rgba(0,0,0,.15)!important;
+}
+
+// Example usage:
+@include media-breakpoint-down(xs) {
+  .card {
+    border-radius: 0;
+    border-width: 1px 0 1px 0;
+    box-shadow: 0 0 .75rem rgba(0,0,0,.15)!important;
+  }
+  nav {
+    box-shadow: 0;
+  }
 }

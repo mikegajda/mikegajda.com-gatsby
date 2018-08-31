@@ -9,8 +9,8 @@ import Footer from 'components/Footer'
 import Layout from 'components/Layout'
 import './style.scss'
 
-export const Post = node => {
-  console.log('Post received this node=', node)
+export const Image = node => {
+  console.log('ImagePost received this node=', node)
   const html = node.remark.html
   const {
     category,
@@ -20,39 +20,28 @@ export const Post = node => {
     path,
     date,
     image,
+    link,
   } = node.remark.frontmatter
-  const link = `${node.sourceInstanceName}/${node.relativeDirectory}/${
+  const url = `${node.sourceInstanceName}/${node.relativeDirectory}/${
     node.name
   }`
 
   const fluid = get(node, 'remark.frontmatter.image.childImageSharp.fluid')
 
   return (
-    <article className="card my-4 rounded-bottom" key={node.absolutePath}>
-      <div className="card-header">
-        <span className="text-muted">{category}</span>
+    <article className="card my-4 shadow" key={node.absolutePath}>
+      <Img fluid={fluid} style={{ display: 'block', margin: '0 auto' }} />
+      <div className="card-footer">
+        <span className="text-muted">{title}</span>
         <time className="text-muted float-right" dateTime={date}>
           {date}
         </time>
-      </div>
-      {fluid ? (
-        <Img fluid={fluid} style={{ display: 'block', margin: '0 auto' }} />
-      ) : (
-        ''
-      )}
-      <div className="card-body">
-        <h1 className="">
-          <Link className="" to={link}>
-            {title}
-          </Link>
-        </h1>
-        <div className="content" dangerouslySetInnerHTML={{ __html: html }} />
       </div>
     </article>
   )
 }
 
-const PostContainer = ({ data, options }) => {
+const ImageContainer = ({ data, options }) => {
   const {
     category,
     tags,
@@ -82,7 +71,7 @@ const PostContainer = ({ data, options }) => {
   )
 }
 
-export default PostContainer
+export default ImageContainer
 
 const getDescription = body => {
   body = body.replace(/<blockquote>/g, '<blockquote class="blockquote">')
@@ -121,7 +110,7 @@ const Badges = ({ items, primary }) =>
   })
 
 export const pageQuery = graphql`
-  query PostByPath($absolutePath: String!) {
+  query ImagePostByPath($absolutePath: String!) {
     site {
       meta: siteMetadata {
         title
@@ -147,14 +136,21 @@ export const pageQuery = graphql`
             id
             html
             frontmatter {
-              layout
               title
+              layout
               date(formatString: "YYYY/MM/DD")
               publishDate: date(formatString: "YYYY/MM/DD")
               category
               tags
               description
               link
+              image {
+                childImageSharp {
+                  fixed(width: 500) {
+                    ...GatsbyImageSharpFixed_withWebp
+                  }
+                }
+              }
             }
           }
         }

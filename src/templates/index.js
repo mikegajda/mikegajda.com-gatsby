@@ -4,14 +4,35 @@ import get from 'lodash/get'
 
 import { Post } from 'templates/Post'
 import { LinkPost } from 'templates/LinkPost'
+import { Image } from 'templates/Image'
 import Meta from 'components/Meta'
 import Layout from 'components/Layout'
 
 const NavLink = props => {
-  if (!props.test) {
-    return <Link to={props.url}>{props.text}</Link>
+  if (props.next) {
+    return (
+      <Link
+        className={
+          'btn btn-primary float-right ' +
+          (props.test ? 'disabled btn-secondary' : '')
+        }
+        to={props.url}
+      >
+        {props.text} <i class="fa fa-arrow-right ml-1" aria-hidden="true" />
+      </Link>
+    )
   } else {
-    return <span>{props.text}</span>
+    return (
+      <Link
+        className={
+          'btn btn-primary float-left ' +
+          (props.test ? 'disabled btn-secondary' : '')
+        }
+        to={props.url}
+      >
+        <i class="fa fa-arrow-left mr-1" aria-hidden="true" /> {props.text}
+      </Link>
+    )
   }
 }
 
@@ -33,17 +54,22 @@ const BlogIndex = ({ data, pathContext }) => {
               return Post(post.node)
             case 'LinkPost':
               return LinkPost(post.node)
+            case 'Image':
+              return Image(post.node)
             default:
               return Post(post.node)
           }
         })}
-      </div>
 
-      <div className="previousLink">
-        <NavLink test={first} url={previousUrl} text="Go to Previous Page" />
-      </div>
-      <div className="nextLink">
-        <NavLink test={last} url={nextUrl} text="Go to Next Page" />
+        <div className="page-navigation clearfix">
+          <NavLink
+            next={false}
+            test={first}
+            url={previousUrl}
+            text="Previous Page"
+          />
+          <NavLink next={true} test={last} url={nextUrl} text="Next Page" />
+        </div>
       </div>
     </Layout>
   )
