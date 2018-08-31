@@ -1,4 +1,4 @@
-import { Link } from 'gatsby'
+import { Link, graphql } from 'gatsby'
 import get from 'lodash/get'
 import React from 'react'
 import map from 'lodash/map'
@@ -30,7 +30,11 @@ export const Image = node => {
 
   return (
     <article className="card my-4 shadow" key={node.absolutePath}>
-      <Img fluid={fluid} style={{ display: 'block', margin: '0 auto' }} />
+      <Img
+        className="card-img-top"
+        fluid={fluid}
+        style={{ display: 'block', margin: '0 auto' }}
+      />
       <div className="card-footer">
         <span className="text-muted">{title}</span>
         <time className="text-muted float-right" dateTime={date}>

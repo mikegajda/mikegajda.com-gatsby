@@ -154,7 +154,6 @@ export const pageQuery = graphql`
               category
               tags
               description
-              link
             }
           }
         }

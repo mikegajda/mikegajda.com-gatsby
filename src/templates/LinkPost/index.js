@@ -153,13 +153,6 @@ export const pageQuery = graphql`
               tags
               description
               link
-              image {
-                childImageSharp {
-                  fixed(width: 500) {
-                    ...GatsbyImageSharpFixed_withWebp
-                  }
-                }
-              }
             }
           }
         }

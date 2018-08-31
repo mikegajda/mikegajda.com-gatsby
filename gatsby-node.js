@@ -83,17 +83,17 @@ exports.createPages = ({ graphql, actions }) => {
           pathPrefix: '', // This is optional and defaults to an empty string if not used
           context: {}, // This is optional and defaults to an empty object if not used
         })
-        each(posts, ({ node }) => {
-          if (!node.remark) return
-          const absolutePath = node.absolutePath
-          createPage({
-            path: `/posts/${node.relativeDirectory}/${node.name}`,
-            component: PostTemplate,
-            context: {
-              absolutePath,
-            },
-          })
-        })
+        // each(posts, ({ node }) => {
+        //   if (!node.remark) return
+        //   const absolutePath = node.absolutePath
+        //   createPage({
+        //     path: `/posts/${node.relativeDirectory}/${node.name}`,
+        //     component: PostTemplate,
+        //     context: {
+        //       absolutePath,
+        //     },
+        //   })
+        // })
 
         // const pages = items.filter(({ node }) => /page/.test(node.name))
         // each(pages, ({ node }) => {
