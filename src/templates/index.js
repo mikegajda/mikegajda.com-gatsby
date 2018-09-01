@@ -5,6 +5,7 @@ import get from 'lodash/get'
 import { Post } from 'templates/Post'
 import { LinkPost } from 'templates/LinkPost'
 import { Image } from 'templates/Image'
+import { Gallery } from 'templates/Gallery'
 import Meta from 'components/Meta'
 import Layout from 'components/Layout'
 
@@ -56,6 +57,8 @@ const BlogIndex = ({ data, pathContext }) => {
               return LinkPost(post.node)
             case 'Image':
               return Image(post.node)
+            case 'Gallery':
+              return Gallery(post.node)
             default:
               return Post(post.node)
           }

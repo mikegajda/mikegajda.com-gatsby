@@ -4,6 +4,7 @@ const path = require('path')
 const Post = path.resolve('./src/templates/Post/index.js')
 const LinkPost = path.resolve('./src/templates/LinkPost/index.js')
 const Image = path.resolve('./src/templates/Image/index.js')
+const Gallery = path.resolve('./src/templates/Gallery/index.js')
 const createPaginatedPages = require('gatsby-paginate')
 
 exports.createPages = ({ graphql, actions }) => {
@@ -40,7 +41,21 @@ exports.createPages = ({ graphql, actions }) => {
                       category
                       tags
                       description
+                      captions
                       image {
+                        childImageSharp {
+                          fluid(maxWidth: 738) {
+                            tracedSVG
+                            aspectRatio
+                            src
+                            srcSet
+                            srcWebp
+                            srcSetWebp
+                            sizes
+                          }
+                        }
+                      }
+                      images {
                         childImageSharp {
                           fluid(maxWidth: 738) {
                             tracedSVG
@@ -110,6 +125,14 @@ exports.createPages = ({ graphql, actions }) => {
               return createPage({
                 path: `/images/${node.relativeDirectory}/${node.name}`,
                 component: Image,
+                context: {
+                  absolutePath,
+                },
+              })
+            case 'Gallery':
+              return createPage({
+                path: `/gallery/${node.relativeDirectory}/${node.name}`,
+                component: Gallery,
                 context: {
                   absolutePath,
                 },
