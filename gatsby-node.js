@@ -5,7 +5,9 @@ const Post = path.resolve('./src/templates/Post/index.js')
 const LinkPost = path.resolve('./src/templates/LinkPost/index.js')
 const Image = path.resolve('./src/templates/Image/index.js')
 const Gallery = path.resolve('./src/templates/Gallery/index.js')
+const OGLink = path.resolve('./src/templates/OGLink/index.js')
 const createPaginatedPages = require('gatsby-paginate')
+const ogs = require('open-graph-scraper')
 
 exports.createPages = ({ graphql, actions }) => {
   const { createPage } = actions
@@ -91,6 +93,21 @@ exports.createPages = ({ graphql, actions }) => {
           return a > b ? -1 : a < b ? 1 : 0
         })
 
+        posts.forEach(function(post) {
+          if (post.node.remark.frontmatter.link) {
+            let options = {
+              url: post.node.remark.frontmatter.link,
+              timeout: 4000,
+            }
+            ogs(options, function(error, results) {
+              console.log('ogs', error, results)
+              if (!error) {
+                post.node.remark.frontmatter.og = results.data
+              }
+            })
+          }
+        })
+
         createPaginatedPages({
           edges: posts,
           createPage: createPage,
@@ -132,6 +149,14 @@ exports.createPages = ({ graphql, actions }) => {
               return createPage({
                 path: `/gallery/${node.relativeDirectory}/${node.name}`,
                 component: Gallery,
+                context: {
+                  absolutePath,
+                },
+              })
+            case 'OGLink':
+              return createPage({
+                path: `/posts/${node.relativeDirectory}/${node.name}`,
+                component: OGLink,
                 context: {
                   absolutePath,
                 },

@@ -53,12 +53,12 @@ export const Gallery = node => {
           {date}
         </time>
       </div>
-      <div className="card-content">
+      <div className="">
         <Swiper {...params}>
           {images.map((image, index) => (
             <div className="">
               <Img sizes={image.childImageSharp.fixed} />
-              <div className="card-footer text-center text-muted">
+              <div className="p-3 pb-0 text-center text-muted">
                 {' '}
                 {captions[index] ? captions[index] : '...'}
               </div>
@@ -66,6 +66,10 @@ export const Gallery = node => {
           ))}
         </Swiper>
       </div>
+      <div
+        className="card-body pt-0"
+        dangerouslySetInnerHTML={{ __html: html }}
+      />
     </article>
   )
 }
