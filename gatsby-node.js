@@ -59,7 +59,7 @@ exports.createPages = ({ graphql, actions }) => {
                       }
                       images {
                         childImageSharp {
-                          fixed(width: 738, height: 555, cropFocus: ATTENTION) {
+                          fixed(width: 708, height: 555, cropFocus: ATTENTION) {
                             tracedSVG
                             aspectRatio
                             src
@@ -112,7 +112,7 @@ exports.createPages = ({ graphql, actions }) => {
           edges: posts,
           createPage: createPage,
           pageTemplate: 'src/templates/index.js',
-          pageLength: 2, // This is optional and defaults to 10 if not used
+          pageLength: 5, // This is optional and defaults to 10 if not used
           pathPrefix: '', // This is optional and defaults to an empty string if not used
           context: {}, // This is optional and defaults to an empty object if not used
         })
@@ -147,7 +147,7 @@ exports.createPages = ({ graphql, actions }) => {
               })
             case 'Gallery':
               return createPage({
-                path: `/gallery/${node.relativeDirectory}/${node.name}`,
+                path: `/galleries/${node.relativeDirectory}/${node.name}`,
                 component: Gallery,
                 context: {
                   absolutePath,

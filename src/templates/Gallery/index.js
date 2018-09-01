@@ -48,7 +48,14 @@ export const Gallery = node => {
   return (
     <article className="card shadow my-4">
       <div className="card-header">
-        <span className="text-muted">{title}</span>
+        <Link
+          className="text-muted"
+          to={`${node.sourceInstanceName}/${node.relativeDirectory}/${
+            node.name
+          }`}
+        >
+          {title}
+        </Link>
         <time className="text-muted float-right" dateTime={date}>
           {date}
         </time>

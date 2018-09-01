@@ -44,7 +44,14 @@ export const OGLink = node => {
           </a>
         </div>
         <div className="card-body">
-          <blockquote className="mb-0">{og.ogDescription}</blockquote>
+          {og.ogDescription ? (
+            <blockquote className="p-3 rounded-right">
+              {og.ogDescription}
+            </blockquote>
+          ) : (
+            ''
+          )}
+          {html ? <div dangerouslySetInnerHTML={{ __html: html }} /> : ''}
         </div>
       </article>
     )
@@ -96,7 +103,7 @@ const OGLinkContainer = ({ data, options }) => {
       }/${data.post.edges[0].node.name}`}
     >
       <Meta site={get(data, 'site.meta')} />
-      <div className="container px-0">{OGPost(node)}</div>
+      <div className="container px-0">{OGLink(node)}</div>
     </Layout>
   )
 }
