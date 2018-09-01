@@ -57,14 +57,13 @@ exports.createPages = ({ graphql, actions }) => {
                       }
                       images {
                         childImageSharp {
-                          fluid(maxWidth: 738) {
+                          fixed(width: 738, height: 555, cropFocus: ATTENTION) {
                             tracedSVG
                             aspectRatio
                             src
                             srcSet
                             srcWebp
                             srcSetWebp
-                            sizes
                           }
                         }
                       }

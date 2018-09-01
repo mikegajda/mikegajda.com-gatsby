@@ -9,6 +9,8 @@ import Footer from 'components/Footer'
 import Layout from 'components/Layout'
 import './style.scss'
 
+import Swiper from 'react-id-swiper'
+
 export const Gallery = node => {
   console.log('Gallery received this node=', node)
   const html = node.remark.html
@@ -21,23 +23,48 @@ export const Gallery = node => {
     date,
     images,
     link,
+    captions,
   } = node.remark.frontmatter
   const url = `${node.sourceInstanceName}/${node.relativeDirectory}/${
     node.name
   }`
 
-  const fluid = get(node, 'remark.frontmatter.image.childImageSharp.fluid')
+  const params = {
+    navigation: {
+      nextEl: '.swiper-button-next.swiper-button-black',
+      prevEl: '.swiper-button-prev.swiper-button-black',
+    },
+    // pagination: {
+    //   el: '.swiper-pagination.swiper-pagination-black',
+    //   type: 'bullets',
+    // },
+    spaceBetween: 10,
+    zoom: false,
+    centeredSlides: true,
+    keyboard: true,
+    onlyInViewport: true,
+  }
 
   return (
-    <article className="card my-4 shadow" key={node.absolutePath}>
-      {images.map(image => (
-        <Img fluid={image.childImageSharp.fluid} />
-      ))}
-      <div className="card-footer">
+    <article className="card shadow my-4">
+      <div className="card-header">
         <span className="text-muted">{title}</span>
         <time className="text-muted float-right" dateTime={date}>
           {date}
         </time>
+      </div>
+      <div className="card-content">
+        <Swiper {...params}>
+          {images.map((image, index) => (
+            <div className="">
+              <Img sizes={image.childImageSharp.fixed} />
+              <div className="card-footer text-center text-muted">
+                {' '}
+                {captions[index] ? captions[index] : '...'}
+              </div>
+            </div>
+          ))}
+        </Swiper>
       </div>
     </article>
   )
@@ -113,14 +140,13 @@ export const pageQuery = graphql`
               captions
               images {
                 childImageSharp {
-                  fluid(maxWidth: 738) {
+                  fixed(width: 738, height: 555, cropFocus: ATTENTION) {
                     tracedSVG
                     aspectRatio
                     src
                     srcSet
                     srcWebp
                     srcSetWebp
-                    sizes
                   }
                 }
               }
