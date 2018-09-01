@@ -107,7 +107,7 @@ const YoutubeContainer = ({ data, options }) => {
       }/${data.post.edges[0].node.name}`}
     >
       <Meta site={get(data, 'site.meta')} />
-      <div className="container px-0">{OGLink(node)}</div>
+      <div className="container px-0">{Youtube(node)}</div>
     </Layout>
   )
 }
