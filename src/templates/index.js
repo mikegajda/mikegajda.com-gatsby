@@ -7,6 +7,7 @@ import { LinkPost } from 'templates/LinkPost'
 import { Image } from 'templates/Image'
 import { Gallery } from 'templates/Gallery'
 import { OGLink } from 'templates/OGLink'
+import { Youtube } from 'templates/Youtube'
 import Meta from 'components/Meta'
 import Layout from 'components/Layout'
 
@@ -62,6 +63,8 @@ const BlogIndex = ({ data, pathContext }) => {
               return Gallery(post.node)
             case 'OGLink':
               return OGLink(post.node)
+            case 'Youtube':
+              return Youtube(post.node)
             default:
               return Post(post.node)
           }
