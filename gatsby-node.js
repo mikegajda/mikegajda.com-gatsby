@@ -128,7 +128,13 @@ exports.createPages = ({ graphql, actions }) => {
           }
 
           let promised = Promise.all(postPromises).then(function(results) {
-            console.log('posts promised', results)
+            results.map(result =>
+              console.log(
+                `result og for ${result.node.remark.frontmatter.title} exists=${
+                  result.node.remark.frontmatter.og ? 'true' : 'false'
+                }`
+              )
+            )
             return results
           })
 
