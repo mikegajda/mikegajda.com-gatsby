@@ -102,7 +102,7 @@ exports.createPages = ({ graphql, actions }) => {
                 new Promise(function(resolve, reject) {
                   ogs({
                     url: posts[i].node.remark.frontmatter.link,
-                    timeout: 1000,
+                    timeout: 5000,
                   })
                     .then(result => {
                       console.log('success')
