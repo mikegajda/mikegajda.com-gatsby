@@ -127,9 +127,9 @@ exports.createPages = ({ graphql, actions }) => {
             }
           }
 
-          let promised = Promise.all(postPromises).then(function(promised) {
-            console.log('posts promised', promised)
-            return promised
+          let promised = Promise.all(postPromises).then(function(results) {
+            console.log('posts promised', results)
+            return results
           })
 
           return promised
