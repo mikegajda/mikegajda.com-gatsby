@@ -143,12 +143,12 @@ exports.createPages = ({ graphql, actions }) => {
             pathPrefix: '', // This is optional and defaults to an empty string if not used
             context: {}, // This is optional and defaults to an empty object if not used
           })
-          each(posts, ({ node }) => {
+          posts.forEach(node => {
             if (!node.remark) return
             const absolutePath = node.absolutePath
             switch (node.remark.frontmatter.layout) {
               case 'Post':
-                return createPage({
+                createPage({
                   path: `/posts/${node.name}`,
                   component: Post,
                   context: {
@@ -156,7 +156,7 @@ exports.createPages = ({ graphql, actions }) => {
                   },
                 })
               case 'LinkPost':
-                return createPage({
+                createPage({
                   path: `/posts/${node.name}`,
                   component: LinkPost,
                   context: {
@@ -164,7 +164,7 @@ exports.createPages = ({ graphql, actions }) => {
                   },
                 })
               case 'Image':
-                return createPage({
+                createPage({
                   path: `/images/${node.name}`,
                   component: Image,
                   context: {
@@ -172,7 +172,7 @@ exports.createPages = ({ graphql, actions }) => {
                   },
                 })
               case 'Gallery':
-                return createPage({
+                createPage({
                   path: `/galleries/${node.relativeDirectory}/${node.name}`,
                   component: Gallery,
                   context: {
@@ -180,7 +180,7 @@ exports.createPages = ({ graphql, actions }) => {
                   },
                 })
               case 'OGLink':
-                return createPage({
+                createPage({
                   path: `/posts/${node.name}`,
                   component: OGLink,
                   context: {
@@ -188,7 +188,7 @@ exports.createPages = ({ graphql, actions }) => {
                   },
                 })
               case 'Youtube':
-                return createPage({
+                createPage({
                   path: `/posts/${node.name}`,
                   component: Youtube,
                   context: {
@@ -196,7 +196,7 @@ exports.createPages = ({ graphql, actions }) => {
                   },
                 })
               default:
-                return createPage({
+                createPage({
                   path: `/posts/${node.name}`,
                   component: Post,
                   context: {
