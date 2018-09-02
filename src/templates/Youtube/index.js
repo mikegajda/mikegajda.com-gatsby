@@ -61,7 +61,7 @@ export const Youtube = node => {
     )
   } else {
     return (
-      <article className="card my-4 rounded-bottom" key={node.absolutePath}>
+      <article className="card my-4 rounded" key={node.absolutePath}>
         <div className="card-header">
           <a href={link} className="text-muted">
             <small>

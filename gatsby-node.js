@@ -97,25 +97,34 @@ exports.createPages = ({ graphql, actions }) => {
           //console.log("posts", posts)
           postPromises = []
           for (let i = 0; i < posts.length; i++) {
-            postPromises.push(
-              new Promise(function(resolve, reject) {
-                ogs({
-                  url: posts[i].node.remark.frontmatter.link,
-                  timeout: 1000,
+            if (posts[i].node.remark.frontmatter.link) {
+              postPromises.push(
+                new Promise(function(resolve, reject) {
+                  ogs({
+                    url: posts[i].node.remark.frontmatter.link,
+                    timeout: 1000,
+                  })
+                    .then(result => {
+                      console.log('success')
+                      posts[i].node.remark.frontmatter.og = result.data
+                      resolve(posts[i])
+                      return
+                    })
+                    .catch(error => {
+                      resolve(posts[i])
+                      return
+                    })
+                  //setTimeout(resolve, 100, 'foo');
                 })
-                  .then(result => {
-                    console.log('success')
-                    posts[i].node.remark.frontmatter.og = result.data
-                    resolve(posts[i])
-                    return
-                  })
-                  .catch(error => {
-                    resolve(posts[i])
-                    return
-                  })
-                //setTimeout(resolve, 100, 'foo');
-              })
-            )
+              )
+            } else {
+              postPromises.push(
+                new Promise(function(resolve, reject) {
+                  resolve(posts[i])
+                  return
+                })
+              )
+            }
           }
 
           let promised = Promise.all(postPromises).then(function(promised) {
