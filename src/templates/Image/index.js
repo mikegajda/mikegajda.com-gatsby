@@ -10,7 +10,6 @@ import Layout from 'components/Layout'
 import './style.scss'
 
 export const Image = node => {
-  console.log('ImagePost received this node=', node)
   const html = node.remark.html
   const {
     category,

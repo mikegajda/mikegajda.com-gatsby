@@ -12,7 +12,7 @@ import './style.scss'
 import Swiper from 'react-id-swiper'
 
 export const Gallery = node => {
-  console.log('Gallery received this node=', node)
+  // console.log('Gallery received this node=', node)
   const html = node.remark.html
   const {
     category,

@@ -10,7 +10,6 @@ import Layout from 'components/Layout'
 import './style.scss'
 
 export const Post = node => {
-  console.log('Post received this node=', node)
   const html = node.remark.html
   const {
     category,

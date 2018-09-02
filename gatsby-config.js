@@ -3,7 +3,7 @@ module.exports = {
     title: 'Mike Gajda',
     description: "Mike Gajda's personal website",
     siteUrl: 'https://gatstrap.netlify.com',
-    author: 'jaxx2104',
+    author: 'Mike Gajda',
     twitter: 'mikegajda',
     adsense: '',
   },
