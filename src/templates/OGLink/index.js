@@ -31,7 +31,7 @@ export const OGLink = node => {
 
   if (og && og.ogType === 'article') {
     return (
-      <article className="card my-4 rounded-bottom" key={node.absolutePath}>
+      <article className="card my-4" key={node.absolutePath}>
         <a href={og.ogUrl} className="text-muted" target="_blank">
           <img className="card-img-top mb-0" src={og.ogImage.url} />
         </a>

@@ -27,7 +27,7 @@ export const Post = node => {
   const fluid = get(node, 'remark.frontmatter.image.childImageSharp.fluid')
 
   return (
-    <article className="card my-4 rounded-bottom" key={node.absolutePath}>
+    <article className="card my-4" key={node.absolutePath}>
       <div className="card-header">
         <span className="text-muted">{category}</span>
         <time className="text-muted float-right" dateTime={date}>

@@ -8,6 +8,7 @@ collections:
   - name: "blog" # Used in routes, e.g., /admin/collections/blog
     label: "Blog" # Used in the UI
     folder: "content/posts" # The path to the folder where the documents are stored
+    filter: {field: "Layout", value: "Post"}
     create: true # Allow users to create new documents in this collection
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}" # Filename template, e.g., YYYY-MM-DD-title.md
     fields: # The fields for each document, usually in front matter
@@ -20,6 +21,7 @@ collections:
   - name: "youtube" # Used in routes, e.g., /admin/collections/blog
     label: "Youtube" # Used in the UI
     folder: "content/posts" # The path to the folder where the documents are stored
+    filter: {field: "Layout", value: "Youtube"}
     create: true # Allow users to create new documents in this collection
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}" # Filename template, e.g., YYYY-MM-DD-title.md
     fields: # The fields for each document, usually in front matter
@@ -31,6 +33,7 @@ collections:
   - name: "oglink" # Used in routes, e.g., /admin/collections/blog
     label: "OGLink" # Used in the UI
     folder: "content/posts" # The path to the folder where the documents are stored
+    filter: {field: "Layout", value: "OGLink"}
     create: true # Allow users to create new documents in this collection
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}" # Filename template, e.g., YYYY-MM-DD-title.md
     fields: # The fields for each document, usually in front matter
