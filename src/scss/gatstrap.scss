@@ -103,12 +103,25 @@ blockquote {
   margin-bottom: 20px;
   background: rgba(0,0,0,.03);
   border-left: 4px $mikeGreen solid;
+  border-radius: 0;
+  padding: 1rem;
+  border-top-right-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
 }
 
 .card-body blockquote:last-child {
   margin-bottom: 0;
 }
 
+div.footnotes ol {
+  margin-bottom: 0 !important;
+}
+div.footnotes p {
+  margin-bottom: 0 !important;
+}
+div.footnotes a {
+
+}
 // Example usage:
 @include media-breakpoint-down(xs) {
   .card {
