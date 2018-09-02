@@ -149,7 +149,7 @@ exports.createPages = ({ graphql, actions }) => {
             switch (node.remark.frontmatter.layout) {
               case 'Post':
                 return createPage({
-                  path: `/posts/${node.relativeDirectory}/${node.name}`,
+                  path: `/posts/${node.name}`,
                   component: Post,
                   context: {
                     absolutePath,
@@ -157,7 +157,7 @@ exports.createPages = ({ graphql, actions }) => {
                 })
               case 'LinkPost':
                 return createPage({
-                  path: `/posts/${node.relativeDirectory}/${node.name}`,
+                  path: `/posts/${node.name}`,
                   component: LinkPost,
                   context: {
                     absolutePath,
@@ -165,7 +165,7 @@ exports.createPages = ({ graphql, actions }) => {
                 })
               case 'Image':
                 return createPage({
-                  path: `/images/${node.relativeDirectory}/${node.name}`,
+                  path: `/images/${node.name}`,
                   component: Image,
                   context: {
                     absolutePath,
@@ -181,7 +181,7 @@ exports.createPages = ({ graphql, actions }) => {
                 })
               case 'OGLink':
                 return createPage({
-                  path: `/posts/${node.relativeDirectory}/${node.name}`,
+                  path: `/posts/${node.name}`,
                   component: OGLink,
                   context: {
                     absolutePath,
@@ -189,7 +189,7 @@ exports.createPages = ({ graphql, actions }) => {
                 })
               case 'Youtube':
                 return createPage({
-                  path: `/posts/${node.relativeDirectory}/${node.name}`,
+                  path: `/posts/${node.name}`,
                   component: Youtube,
                   context: {
                     absolutePath,
@@ -197,7 +197,7 @@ exports.createPages = ({ graphql, actions }) => {
                 })
               default:
                 return createPage({
-                  path: `/posts/${node.relativeDirectory}/${node.name}`,
+                  path: `/posts/${node.name}`,
                   component: Post,
                   context: {
                     absolutePath,
