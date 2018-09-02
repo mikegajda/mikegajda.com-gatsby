@@ -2,7 +2,7 @@ module.exports = {
   siteMetadata: {
     title: 'Mike Gajda',
     description: "Mike Gajda's personal website",
-    siteUrl: 'https://gatstrap.netlify.com',
+    siteUrl: 'https://mikegajda.com',
     author: 'Mike Gajda',
     twitter: 'mikegajda',
     adsense: '',
@@ -102,5 +102,6 @@ module.exports = {
     'gatsby-plugin-sass',
     'gatsby-plugin-sitemap',
     'gatsby-plugin-twitter',
+    `gatsby-plugin-feed`,
   ],
 }
