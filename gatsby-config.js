@@ -57,13 +57,13 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: 'Gatstrap',
-        short_name: 'Gatstrap',
-        description: 'Gatsby starter for bootstrap a blog',
-        homepage_url: 'https://gatstrap.netlify.com',
+        name: 'Mike Gajda',
+        short_name: 'mikegajda',
+        description: "Mike Gajda's personal website",
+        homepage_url: 'https://mikegajda.com',
         start_url: '/',
         background_color: '#fff',
-        theme_color: '#673ab7',
+        theme_color: '#01bc84',
         display: 'standalone',
         icons: [
           {
