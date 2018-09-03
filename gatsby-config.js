@@ -102,5 +102,6 @@ module.exports = {
     'gatsby-plugin-sass',
     'gatsby-plugin-sitemap',
     'gatsby-plugin-twitter',
+    `gatsby-transformer-open-graph`,
   ],
 }
