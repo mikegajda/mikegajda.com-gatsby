@@ -20,9 +20,7 @@ export const Post = node => {
     date,
     image,
   } = node.remark.frontmatter
-  const link = `${node.sourceInstanceName}/${node.relativeDirectory}/${
-    node.name
-  }`
+  const link = `/posts/${node.name}`
 
   const fluid = get(node, 'remark.frontmatter.image.childImageSharp.fluid')
 

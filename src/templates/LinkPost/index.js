@@ -22,9 +22,7 @@ export const LinkPost = node => {
     image,
     link,
   } = node.remark.frontmatter
-  const url = `${node.sourceInstanceName}/${node.relativeDirectory}/${
-    node.name
-  }`
+  const url = `/posts/${node.name}`
 
   let prettyLink = link.replace(/(^\w+:|^)\/\//, '').replace(/^www\./, '')
 

@@ -154,7 +154,7 @@ exports.createPages = ({ graphql, actions }) => {
             const absolutePath = node.absolutePath
             switch (node.remark.frontmatter.layout) {
               case 'Post':
-                createPage({
+                return createPage({
                   path: `/posts/${node.name}`,
                   component: Post,
                   context: {
@@ -162,7 +162,7 @@ exports.createPages = ({ graphql, actions }) => {
                   },
                 })
               case 'LinkPost':
-                createPage({
+                return createPage({
                   path: `/posts/${node.name}`,
                   component: LinkPost,
                   context: {
@@ -170,7 +170,7 @@ exports.createPages = ({ graphql, actions }) => {
                   },
                 })
               case 'Image':
-                createPage({
+                return createPage({
                   path: `/images/${node.name}`,
                   component: Image,
                   context: {
@@ -178,7 +178,7 @@ exports.createPages = ({ graphql, actions }) => {
                   },
                 })
               case 'Gallery':
-                createPage({
+                return createPage({
                   path: `/galleries/${node.relativeDirectory}/${node.name}`,
                   component: Gallery,
                   context: {
@@ -186,7 +186,7 @@ exports.createPages = ({ graphql, actions }) => {
                   },
                 })
               case 'OGLink':
-                createPage({
+                return createPage({
                   path: `/posts/${node.name}`,
                   component: OGLink,
                   context: {
@@ -194,7 +194,7 @@ exports.createPages = ({ graphql, actions }) => {
                   },
                 })
               case 'Youtube':
-                createPage({
+                return createPage({
                   path: `/posts/${node.name}`,
                   component: Youtube,
                   context: {
@@ -202,7 +202,7 @@ exports.createPages = ({ graphql, actions }) => {
                   },
                 })
               default:
-                createPage({
+                return createPage({
                   path: `/posts/${node.name}`,
                   component: Post,
                   context: {
