@@ -3,12 +3,12 @@ const axios = require(`axios`)
 const Queue = require(`better-queue`)
 const { createRemoteFileNode } = require(`gatsby-source-filesystem`)
 
-//const SCREENSHOT_ENDPOINT = `https://h7iqvn4842.execute-api.us-east-2.amazonaws.com/prod/screenshot`
+const SCREENSHOT_ENDPOINT = `https://h7iqvn4842.execute-api.us-east-2.amazonaws.com/prod/screenshot`
 const LAMBDA_CONCURRENCY_LIMIT = 50
 
-const openGraphQueue = new Queue(
+const screenshotQueue = new Queue(
   (input, cb) => {
-    createOpenGraphNode(input)
+    createScreenshotNode(input)
       .then(r => cb(null, r))
       .catch(e => cb(e))
   },
@@ -26,19 +26,11 @@ exports.onPreBootstrap = (
   pluginOptions
 ) => {
   const { createNode, touchNode } = actions
-  // getNodes().map((node) => {
-  //   console.log("here", node.frontmatter)
-  // })
-  const openGraphNodes = getNodes().filter(
-    n =>
-      n.internal &&
-      n.internal.type === `MarkdownRemark` &&
-      n.frontmatter &&
-      n.frontmatter.link
+  const screenshotNodes = getNodes().filter(
+    n => n.internal.type === `Screenshot`
   )
-  console.log('openGraphNodes=', openGraphNodes.length)
 
-  if (openGraphNodes.length === 0) {
+  if (screenshotNodes.length === 0) {
     return null
   }
 
@@ -46,24 +38,23 @@ exports.onPreBootstrap = (
 
   // Check for updated screenshots
   // and prevent Gatsby from garbage collecting remote file nodes
-  openGraphNodes.forEach(n => {
-    openGraphQueue.push({
-      url: n.frontmatter.link,
-      parent: n.parent,
-      store,
-      cache,
-      createNode,
-      createNodeId,
-    })
-    // if (n.expires && new Date() >= new Date(n.expires)) {
-    //   anyQueued = true
-    //   // Screenshot expired, re-run Lambda
-
-    // } else {
-    //   // Screenshot hasn't yet expired, touch the image node
-    //   // to prevent garbage collection
-    //   touchNode({ nodeId: n.screenshotFile___NODE })
-    // }
+  screenshotNodes.forEach(n => {
+    if (n.expires && new Date() >= new Date(n.expires)) {
+      anyQueued = true
+      // Screenshot expired, re-run Lambda
+      screenshotQueue.push({
+        url: n.url,
+        parent: n.parent,
+        store,
+        cache,
+        createNode,
+        createNodeId,
+      })
+    } else {
+      // Screenshot hasn't yet expired, touch the image node
+      // to prevent garbage collection
+      touchNode({ nodeId: n.screenshotFile___NODE })
+    }
   })
 
   if (!anyQueued) {
@@ -71,7 +62,7 @@ exports.onPreBootstrap = (
   }
 
   return new Promise((resolve, reject) => {
-    openGraphQueue.on(`drain`, () => {
+    screenshotQueue.on(`drain`, () => {
       resolve()
     })
   })
@@ -86,16 +77,20 @@ exports.onCreateNode = async ({
 }) => {
   const { createNode, createParentChildLink } = actions
 
-  console.log('create node in plugin', node)
+  //console.log("node.internal.type=", node.internal.type)
 
   // We only care about parsed sites.yaml files with a url field
-  if (!node.link) {
-    console.log('no link found')
+  if (node.internal.type !== `MarkdownRemark`) {
     return
+  } else {
+    if (!node.frontmatter.link) {
+      return
+    }
+    console.log('node.frontmatter.link=', node.frontmatter.link)
   }
 
-  const openGraphNode = await new Promise((resolve, reject) => {
-    openGraphQueue
+  const screenshotNode = await new Promise((resolve, reject) => {
+    screenshotQueue
       .push({
         url: node.frontmatter.link,
         parent: node.id,
@@ -114,11 +109,11 @@ exports.onCreateNode = async ({
 
   createParentChildLink({
     parent: node,
-    child: openGraphNode,
+    child: screenshotNode,
   })
 }
 
-const createOpenGraphNode = async ({
+const createScreenshotNode = async ({
   url,
   parent,
   store,
@@ -127,17 +122,16 @@ const createOpenGraphNode = async ({
   createNodeId,
 }) => {
   try {
-    const openGraphResponse = {
-      og: {
-        ogUrl:
+    //const screenshotResponse = await axios.post(SCREENSHOT_ENDPOINT, { url })
+    const screenshotResponse = {
+      data: {
+        url:
           'https://cdn.vox-cdn.com/thumbor/oQHsce6Ez49l4rdP4QbHa-PIetE=/0x0:2040x1360/1220x813/filters:focal(857x517:1183x843):format(webp)/cdn.vox-cdn.com/uploads/chorus_image/image/61115509/acastro_180416_1777_chrome_0001.0.jpg',
       },
     }
-    //await axios.post(SCREENSHOT_ENDPOINT, { url })
 
-    console.log('createOpenGraphNode', url, openGraphResponse.og.ogUrl)
     const fileNode = await createRemoteFileNode({
-      url: openGraphResponse.og.ogUrl,
+      url: screenshotResponse.data.url,
       store,
       cache,
       createNode,
@@ -145,31 +139,29 @@ const createOpenGraphNode = async ({
     })
 
     if (!fileNode) {
-      throw new Error(`Remote file node is null`, openGraphResponse.og.ogUrl)
+      throw new Error(`Remote file node is null`, screenshotResponse.data.url)
     }
 
-    const openGraphNode = {
-      id: createNodeId(`${parent} >>> OpenGraph`),
+    const screenshotNode = {
+      id: createNodeId(`${parent} >>> Screenshot`),
       url,
-      // expires: screenshotResponse.data.expires,
+      expires: screenshotResponse.data.expires,
       parent,
       children: [],
       internal: {
-        type: `OpenGraph`,
+        type: `Screenshot`,
       },
-      openGraphFile___NODE: fileNode.id,
+      screenshotFile___NODE: fileNode.id,
     }
 
-    openGraphNode.internal.contentDigest = createContentDigest(openGraphNode)
+    screenshotNode.internal.contentDigest = createContentDigest(screenshotNode)
 
-    createNode(openGraphNode)
+    createNode(screenshotNode)
 
-    return openGraphNode
+    return screenshotNode
   } catch (e) {
-    console.log(`Failed to ${url}. Retrying...`)
+    console.log(`Failed to screenshot ${url}. Retrying...`)
 
     throw e
   }
 }
-
-//exports.setFieldsOnGraphQLNodeType = require(`./extend-node-type`)
