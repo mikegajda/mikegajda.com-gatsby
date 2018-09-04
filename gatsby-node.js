@@ -35,6 +35,24 @@ exports.createPages = ({ graphql, actions }) => {
                   remark: childMarkdownRemark {
                     id
                     html
+                    og: childOpengraph {
+                      url
+                      description
+                      title
+                      image {
+                        childImageSharp {
+                          fluid(maxWidth: 738) {
+                            tracedSVG
+                            aspectRatio
+                            src
+                            srcSet
+                            srcWebp
+                            srcSetWebp
+                            sizes
+                          }
+                        }
+                      }
+                    }
                     frontmatter {
                       layout
                       title
@@ -93,53 +111,53 @@ exports.createPages = ({ graphql, actions }) => {
           })
           return posts
         })
-        .then(posts => {
-          //console.log("posts", posts)
-          postPromises = []
-          for (let i = 0; i < posts.length; i++) {
-            if (posts[i].node.remark.frontmatter.link) {
-              postPromises.push(
-                new Promise(function(resolve, reject) {
-                  ogs({
-                    url: posts[i].node.remark.frontmatter.link,
-                    timeout: 5000,
-                  })
-                    .then(result => {
-                      console.log('success')
-                      posts[i].node.remark.frontmatter.og = result.data
-                      resolve(posts[i])
-                      return
-                    })
-                    .catch(error => {
-                      resolve(posts[i])
-                      return
-                    })
-                  //setTimeout(resolve, 100, 'foo');
-                })
-              )
-            } else {
-              postPromises.push(
-                new Promise(function(resolve, reject) {
-                  resolve(posts[i])
-                  return
-                })
-              )
-            }
-          }
+        // .then(posts => {
+        //   //console.log("posts", posts)
+        //   postPromises = []
+        //   for (let i = 0; i < posts.length; i++) {
+        //     if (posts[i].node.remark.frontmatter.link) {
+        //       postPromises.push(
+        //         new Promise(function(resolve, reject) {
+        //           ogs({
+        //             url: posts[i].node.remark.frontmatter.link,
+        //             timeout: 5000,
+        //           })
+        //             .then(result => {
+        //               console.log('success')
+        //               posts[i].node.remark.frontmatter.og = result.data
+        //               resolve(posts[i])
+        //               return
+        //             })
+        //             .catch(error => {
+        //               resolve(posts[i])
+        //               return
+        //             })
+        //           //setTimeout(resolve, 100, 'foo');
+        //         })
+        //       )
+        //     } else {
+        //       postPromises.push(
+        //         new Promise(function(resolve, reject) {
+        //           resolve(posts[i])
+        //           return
+        //         })
+        //       )
+        //     }
+        //   }
 
-          let promised = Promise.all(postPromises).then(function(results) {
-            results.map(result =>
-              console.log(
-                `result og for ${result.node.remark.frontmatter.title} exists=${
-                  result.node.remark.frontmatter.og ? 'true' : 'false'
-                }`
-              )
-            )
-            return results
-          })
+        //   let promised = Promise.all(postPromises).then(function(results) {
+        //     results.map(result =>
+        //       console.log(
+        //         `result og for ${result.node.remark.frontmatter.title} exists=${
+        //           result.node.remark.frontmatter.og ? 'true' : 'false'
+        //         }`
+        //       )
+        //     )
+        //     return results
+        //   })
 
-          return promised
-        })
+        //   return promised
+        // })
         .then(posts => {
           createPaginatedPages({
             edges: posts,

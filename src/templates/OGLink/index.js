@@ -19,34 +19,39 @@ export const OGLink = node => {
     title,
     path,
     date,
-    image,
     link,
-    og,
   } = node.remark.frontmatter
+  const og = node.remark.og
+  const image = node.remark.og.image.childImageSharp
+  console.log('node og image =', image)
   const url = `${node.sourceInstanceName}/${node.relativeDirectory}/${
     node.name
   }`
 
   let prettyLink = link.replace(/(^\w+:|^)\/\//, '').replace(/^www\./, '')
 
-  if (og && og.ogType === 'article') {
+  if (image) {
+    console.log('HERE')
     return (
       <article className="card my-4" key={node.absolutePath}>
-        <a href={og.ogUrl} className="text-muted" target="_blank">
-          <img className="card-img-top mb-0" src={og.ogImage.url} />
+        <a href={og.url} className="text-muted" target="_blank">
+          <Img
+            fluid={og.image.childImageSharp.fluid}
+            style={{ display: 'block', margin: '0 auto' }}
+          />
         </a>
         <div className="card-header">
-          <a href={og.ogUrl} className="text-muted">
+          <a href={og.url} className="text-muted">
             <small>
               <i class="fa fa-external-link mr-1" aria-hidden="true" />
             </small>
-            {og.ogTitle}
+            {og.title}
           </a>
         </div>
         <div className="card-body">
-          {og.ogDescription ? (
+          {og.description ? (
             <blockquote className="p-3 rounded-right">
-              {og.ogDescription}
+              {og.description}
             </blockquote>
           ) : (
             ''

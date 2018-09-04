@@ -8,7 +8,15 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "better-queue": "^3.8.10"
+    "better-queue": "^3.8.10",
+    "metascraper": "^4.2.0",
+    "metascraper-author": "^4.2.0",
+    "metascraper-date": "^4.2.0",
+    "metascraper-description": "^4.2.0",
+    "metascraper-image": "^4.2.0",
+    "metascraper-publisher": "^4.2.0",
+    "metascraper-title": "^4.2.0",
+    "metascraper-url": "^4.2.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",
