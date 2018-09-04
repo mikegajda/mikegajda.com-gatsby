@@ -4,6 +4,8 @@
   "version": "2.0.0",
   "author": "Futoshi Iwashita <jaxx2104@gmail.com>",
   "dependencies": {
+    "axios": "^0.18.0",
+    "better-queue": "^3.8.10",
     "extract-text-webpack-plugin": "^3.0.2",
     "fs": "0.0.1-security",
     "gatsby": "^2.0.0-rc.7",
