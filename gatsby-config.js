@@ -93,6 +93,7 @@ module.exports = {
         mergeCachingHeaders: true,
       },
     },
+    `gatsby-transformer-open-graph`,
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
     'gatsby-plugin-catch-links',
@@ -102,6 +103,5 @@ module.exports = {
     'gatsby-plugin-sass',
     'gatsby-plugin-sitemap',
     'gatsby-plugin-twitter',
-    `gatsby-transformer-open-graph`,
   ],
 }

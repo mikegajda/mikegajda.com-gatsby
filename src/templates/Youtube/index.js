@@ -9,8 +9,10 @@ import Footer from 'components/Footer'
 import Layout from 'components/Layout'
 import './style.scss'
 
+import URL from 'url-parse'
+
 export const Youtube = node => {
-  console.log('OGLink received this node=', node)
+  console.log('Youtube received this node=', node)
   const html = node.remark.html
   const {
     category,
@@ -21,36 +23,39 @@ export const Youtube = node => {
     date,
     image,
     link,
-    og,
   } = node.remark.frontmatter
+  const { og } = node.remark
   const url = `${node.sourceInstanceName}/${node.relativeDirectory}/${
     node.name
   }`
 
   let prettyLink = link.replace(/(^\w+:|^)\/\//, '').replace(/^www\./, '')
 
-  if (og && og.ogType === 'video.other') {
+  let youtubeKey = new URL(link, true).query.v
+  console.log('youtubeKey = ', youtubeKey)
+
+  if (og && youtubeKey) {
     return (
       <article className="card my-4 rounded" key={node.absolutePath}>
         <div class="embed-responsive embed-responsive-16by9 card-img-top">
           <iframe
             class="embed-responsive-item"
-            src={og.ogVideo.url}
+            src={`https://www.youtube.com/embed/${youtubeKey}`}
             allowfullscreen
           />
         </div>
         <div className="card-header">
-          <a href={og.ogUrl} className="text-muted">
+          <a href={og.url} className="text-muted">
             <small>
               <i class="fa fa-external-link mr-1" aria-hidden="true" />
             </small>
-            {og.ogUrl}
+            {og.url}
           </a>
         </div>
         <div className="card-body">
-          {og.ogDescription ? (
+          {og.description ? (
             <blockquote className="p-3 rounded-right">
-              {og.ogDescription}
+              {og.description}
             </blockquote>
           ) : (
             ''

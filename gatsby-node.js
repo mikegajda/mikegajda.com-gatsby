@@ -8,7 +8,6 @@ const Gallery = path.resolve('./src/templates/Gallery/index.js')
 const OGLink = path.resolve('./src/templates/OGLink/index.js')
 const Youtube = path.resolve('./src/templates/Youtube/index.js')
 const createPaginatedPages = require('gatsby-paginate')
-const ogs = require('open-graph-scraper')
 
 exports.createPages = ({ graphql, actions }) => {
   const { createPage } = actions

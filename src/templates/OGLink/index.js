@@ -37,7 +37,7 @@ export const OGLink = node => {
         <a href={og.url} className="text-muted" target="_blank">
           <Img
             fluid={og.image.childImageSharp.fluid}
-            style={{ display: 'block', margin: '0 auto' }}
+            className={'d-block card-img-top'}
           />
         </a>
         <div className="card-header">

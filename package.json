@@ -31,20 +31,13 @@
     "gatsby-remark-responsive-iframe": "^2.0.0-rc.1",
     "gatsby-remark-smartypants": "^2.0.0-rc.1",
     "gatsby-source-filesystem": "^2.0.1-rc.1",
+    "gatsby-transformer-open-graph": "^2.0.0-rc.3",
     "gatsby-transformer-remark": "^2.1.1-beta.1",
     "gatsby-transformer-sharp": "^2.1.1-rc.2",
-    "metascraper": "^4.2.0",
-    "metascraper-author": "^4.2.0",
-    "metascraper-date": "^4.2.0",
-    "metascraper-description": "^4.2.0",
-    "metascraper-image": "^4.2.0",
-    "metascraper-publisher": "^4.2.0",
-    "metascraper-title": "^4.2.0",
-    "metascraper-url": "^4.2.0",
     "net": "^1.0.2",
-    "open-graph-scraper": "^3.5.1",
     "react-id-swiper": "^1.6.7",
-    "tls": "0.0.1"
+    "tls": "0.0.1",
+    "url-parse": "^1.4.3"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-svg-core": "1.2.2",
