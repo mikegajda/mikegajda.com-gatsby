@@ -122,6 +122,22 @@ div.footnotes p {
 div.footnotes a {
 
 }
+.ogimage-badge {
+  position: absolute;
+  padding: .75rem;
+  top: 0;
+  right: 0;
+}
+
+.oglink-title a {
+  color: $body-color;
+}
+
+.oglink-title a:hover {
+  color: $mikeGreen;
+  text-decoration: none;
+}
+
 // Example usage:
 @include media-breakpoint-down(xs) {
   .card {

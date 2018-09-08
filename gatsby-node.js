@@ -38,6 +38,7 @@ exports.createPages = ({ graphql, actions }) => {
                       url
                       description
                       title
+                      publisher
                       image {
                         childImageSharp {
                           fluid(maxWidth: 738) {

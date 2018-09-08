@@ -34,18 +34,39 @@ export const OGLink = node => {
     console.log('HERE')
     return (
       <article className="card my-4" key={node.absolutePath}>
-        <a href={og.url} className="text-muted" target="_blank">
+        <a href={og.url} className="text-muted card-img-top" target="_blank">
           <Img
             fluid={og.image.childImageSharp.fluid}
             className={'d-block card-img-top'}
           />
+          <div class="ogimage-badge clearfix">
+            <time
+              className="badge badge-light p-2 text-muted float-right"
+              dateTime={date}
+            >
+              <i class="fa fa-clock-o pr-1" aria-hidden="true" />
+              {date}
+            </time>
+          </div>
         </a>
-        <div className="card-header">
-          <a href={og.url} className="text-muted">
-            <small>
-              <i class="fa fa-external-link mr-1" aria-hidden="true" />
-            </small>
-            {og.title}
+
+        <div className="card-header oglink-title">
+          <a href={og.url} className="">
+            <div className="h3 mb-0">{og.title}</div>
+            {og.publisher ? (
+              <div className="text-muted" style={{ fontSize: '1rem' }}>
+                <small>
+                  <i
+                    class="fa fa-external-link mr-1"
+                    style={{ fontSize: '.75rem' }}
+                    aria-hidden="true"
+                  />
+                </small>
+                {og.publisher}
+              </div>
+            ) : (
+              ''
+            )}
           </a>
         </div>
         <div className="card-body">

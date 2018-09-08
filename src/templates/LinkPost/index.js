@@ -28,7 +28,7 @@ export const LinkPost = node => {
 
   return (
     <article className="card my-4" key={node.absolutePath}>
-      <div className="card-header">
+      <div className="card-header linkpost-card-header">
         <a href={link} className="text-muted">
           <small>
             <i class="fa fa-external-link mr-1" aria-hidden="true" />
