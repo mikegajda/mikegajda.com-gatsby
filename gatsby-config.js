@@ -79,27 +79,27 @@ module.exports = {
         ],
       },
     },
-    {
-      resolve: 'gatsby-plugin-google-analytics',
-      options: {
-        trackingId: '',
-      },
-    },
-    {
-      resolve: 'gatsby-plugin-netlify',
-      options: {
-        mergeSecurityHeaders: true,
-        mergeLinkHeaders: true,
-        mergeCachingHeaders: true,
-      },
-    },
+    // {
+    //   resolve: 'gatsby-plugin-google-analytics',
+    //   options: {
+    //     trackingId: '',
+    //   },
+    // },
+    // {
+    //   resolve: 'gatsby-plugin-netlify',
+    //   options: {
+    //     mergeSecurityHeaders: true,
+    //     mergeLinkHeaders: true,
+    //     mergeCachingHeaders: true,
+    //   },
+    // },
     `gatsby-transformer-open-graph`,
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
-    'gatsby-plugin-catch-links',
+    // 'gatsby-plugin-catch-links',
     // 'gatsby-plugin-offline',
     'gatsby-plugin-react-helmet',
-    'gatsby-plugin-react-next',
+    // 'gatsby-plugin-react-next',
     'gatsby-plugin-sass',
     'gatsby-plugin-sitemap',
     'gatsby-plugin-twitter',
