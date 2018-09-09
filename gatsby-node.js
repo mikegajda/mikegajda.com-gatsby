@@ -34,6 +34,21 @@ exports.createPages = ({ graphql, actions }) => {
                   remark: childMarkdownRemark {
                     id
                     html
+                    remoteImage: childRemoteimage {
+                      image {
+                        childImageSharp {
+                          fluid(maxWidth: 738) {
+                            tracedSVG
+                            aspectRatio
+                            src
+                            srcSet
+                            srcWebp
+                            srcSetWebp
+                            sizes
+                          }
+                        }
+                      }
+                    }
                     og: childOpengraph {
                       url
                       description
@@ -63,6 +78,7 @@ exports.createPages = ({ graphql, actions }) => {
                       tags
                       description
                       captions
+                      remoteImage
                       image {
                         childImageSharp {
                           fluid(maxWidth: 738) {

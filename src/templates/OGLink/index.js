@@ -22,7 +22,13 @@ export const OGLink = node => {
     link,
   } = node.remark.frontmatter
   const og = node.remark.og
-  const image = node.remark.og.image.childImageSharp
+  const image =
+    node.remark.og && node.remark.og.image
+      ? node.remark.og.image.childImageSharp
+      : undefined
+  const remoteImage = node.remark.remoteImage
+    ? node.remark.remoteImage.image.childImageSharp
+    : undefined
   console.log('node og image =', image)
   const url = `${node.sourceInstanceName}/${node.relativeDirectory}/${
     node.name
@@ -30,15 +36,13 @@ export const OGLink = node => {
 
   let prettyLink = link.replace(/(^\w+:|^)\/\//, '').replace(/^www\./, '')
 
-  if (image) {
-    console.log('HERE')
-    return (
-      <article className="card my-4" key={node.absolutePath}>
+  let cardImageTop = remoteImage ? remoteImage : image ? image : null
+
+  return (
+    <article className="card my-4" key={node.absolutePath}>
+      {cardImageTop ? (
         <a href={og.url} className="text-muted card-img-top" target="_blank">
-          <Img
-            fluid={og.image.childImageSharp.fluid}
-            className={'d-block card-img-top'}
-          />
+          <Img fluid={cardImageTop.fluid} className={'d-block card-img-top'} />
           <div class="ogimage-badge clearfix">
             <time
               className="badge badge-light p-2 text-muted float-right"
@@ -49,60 +53,45 @@ export const OGLink = node => {
             </time>
           </div>
         </a>
+      ) : (
+        ''
+      )}
 
-        <div className="card-header oglink-title">
-          <a href={og.url} className="">
-            <div className="h3 mb-0">{og.title}</div>
-            {og.publisher ? (
-              <div className="text-muted" style={{ fontSize: '1rem' }}>
-                <small>
-                  <i
-                    class="fa fa-external-link mr-1"
-                    style={{ fontSize: '.75rem' }}
-                    aria-hidden="true"
-                  />
-                </small>
-                {og.publisher}
-              </div>
-            ) : (
-              ''
-            )}
-          </a>
-        </div>
-        <div className="card-body">
-          {og.description ? (
-            <blockquote className="p-3 rounded-right">
-              {og.description}
-            </blockquote>
+      <div className="card-header oglink-title">
+        <a href={og.url ? og.url : link} className="">
+          <div className="h3 mb-0">
+            {og.title && og.title !== 'Terms of Service Violation'
+              ? og.title
+              : title}
+          </div>
+          {og.publisher ? (
+            <div className="text-muted" style={{ fontSize: '1rem' }}>
+              <small>
+                <i
+                  class="fa fa-external-link mr-1"
+                  style={{ fontSize: '.75rem' }}
+                  aria-hidden="true"
+                />
+              </small>
+              {og.publisher}
+            </div>
           ) : (
             ''
           )}
-          {html ? <div dangerouslySetInnerHTML={{ __html: html }} /> : ''}
-        </div>
-      </article>
-    )
-  } else {
-    return (
-      <article className="card my-4 rounded-bottom" key={node.absolutePath}>
-        <div className="card-header">
-          <a href={link} className="text-muted">
-            <small>
-              <i class="fa fa-external-link mr-1" aria-hidden="true" />
-            </small>
-            {prettyLink}
-          </a>
-        </div>
-        <div className="card-body">
-          <h1 className="">
-            <Link className="" to={url}>
-              {title}
-            </Link>
-          </h1>
-          <div className="content" dangerouslySetInnerHTML={{ __html: html }} />
-        </div>
-      </article>
-    )
-  }
+        </a>
+      </div>
+      <div className="card-body">
+        {og.description ? (
+          <blockquote className="p-3 rounded-right">
+            {og.description}
+          </blockquote>
+        ) : (
+          ''
+        )}
+        {html ? <div dangerouslySetInnerHTML={{ __html: html }} /> : ''}
+      </div>
+    </article>
+  )
 }
 
 const OGLinkContainer = ({ data, options }) => {
