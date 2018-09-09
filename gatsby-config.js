@@ -85,14 +85,6 @@ module.exports = {
         trackingId: '',
       },
     },
-    {
-      resolve: 'gatsby-plugin-netlify',
-      options: {
-        mergeSecurityHeaders: true,
-        mergeLinkHeaders: true,
-        mergeCachingHeaders: true,
-      },
-    },
     `gatsby-transformer-open-graph`,
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
@@ -103,5 +95,13 @@ module.exports = {
     'gatsby-plugin-sass',
     'gatsby-plugin-sitemap',
     'gatsby-plugin-twitter',
+    {
+      resolve: 'gatsby-plugin-netlify',
+      options: {
+        mergeSecurityHeaders: true,
+        mergeLinkHeaders: true,
+        mergeCachingHeaders: true,
+      },
+    },
   ],
 }
