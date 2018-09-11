@@ -183,8 +183,12 @@ exports.createPages = ({ graphql, actions }) => {
             pathPrefix: '', // This is optional and defaults to an empty string if not used
             context: {}, // This is optional and defaults to an empty object if not used
           })
-          posts.forEach(node => {
-            if (!node.remark) return
+          posts.forEach(edge => {
+            let node = edge.node
+
+            if (!node.remark) {
+              return
+            }
             const absolutePath = node.absolutePath
             switch (node.remark.frontmatter.layout) {
               case 'Post':
@@ -245,7 +249,7 @@ exports.createPages = ({ graphql, actions }) => {
                 })
             }
           })
-          return
+          //return
         })
     )
   })

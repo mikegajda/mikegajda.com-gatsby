@@ -50,7 +50,7 @@ const BlogIndex = ({ data, pathContext }) => {
   return (
     <Layout location={index === 0 ? '/' : index.toString()}>
       <Meta site={get(data, 'site.meta')} />
-      <div className="container px-0">
+      <div className="px-0">
         {posts.map(function(post) {
           switch (post.node.remark.frontmatter.layout) {
             case 'Post':
@@ -62,7 +62,7 @@ const BlogIndex = ({ data, pathContext }) => {
             case 'Gallery':
               return Gallery(post.node)
             case 'OGLink':
-              return OGLink(post.node)
+              return OGLink(post.node, false)
             case 'Youtube':
               return Youtube(post.node)
             default:
@@ -70,7 +70,7 @@ const BlogIndex = ({ data, pathContext }) => {
           }
         })}
 
-        <div className="page-navigation clearfix">
+        <div className="container px-0 page-navigation clearfix">
           <NavLink
             next={false}
             test={first}

@@ -9,7 +9,7 @@ import Footer from 'components/Footer'
 import Layout from 'components/Layout'
 import './style.scss'
 
-export const OGLink = node => {
+export const OGLink = (node, shouldShowPermalink) => {
   console.log('OGLink received this node=', node)
   const html = node.remark.html
   const {
@@ -39,7 +39,7 @@ export const OGLink = node => {
   let cardImageTop = remoteImage ? remoteImage : image ? image : null
 
   return (
-    <article className="card my-4" key={node.absolutePath}>
+    <article className="container p-0 card my-4" key={node.absolutePath}>
       {cardImageTop ? (
         <a href={og.url} className="text-muted card-img-top" target="_blank">
           <Img fluid={cardImageTop.fluid} className={'d-block card-img-top'} />
@@ -89,12 +89,30 @@ export const OGLink = node => {
           ''
         )}
         {html ? <div dangerouslySetInnerHTML={{ __html: html }} /> : ''}
+        {shouldShowPermalink ? (
+          <div
+            className="text-muted float-right pt-2"
+            style={{ fontSize: '1rem' }}
+          >
+            <small>
+              <i
+                class="fa fa-link mr-1"
+                style={{ fontSize: '.75rem' }}
+                aria-hidden="true"
+              />
+              <Link to={'/posts/' + node.name}>Permalink</Link>
+            </small>
+          </div>
+        ) : (
+          ''
+        )}
       </div>
     </article>
   )
 }
 
 const OGLinkContainer = ({ data, options }) => {
+  console.log('DATA = ', data)
   const {
     category,
     tags,
@@ -118,7 +136,7 @@ const OGLinkContainer = ({ data, options }) => {
       }/${data.post.edges[0].node.name}`}
     >
       <Meta site={get(data, 'site.meta')} />
-      <div className="container px-0">{OGLink(node)}</div>
+      <div className="container px-0">{OGLink(node, false)}</div>
     </Layout>
   )
 }
@@ -176,10 +194,11 @@ export const pageQuery = graphql`
     post: allFile(filter: { absolutePath: { eq: $absolutePath } }) {
       edges {
         node {
-          id
-          relativePath: relativePath
-          relativeDirectory: relativeDirectory
+          id: absolutePath
+          relativePath
+          relativeDirectory
           absolutePath
+          sourceInstanceName
           name
           ext
           birthTime(formatString: "YYYY-MM-DD hh:mm:ss")
@@ -187,15 +206,76 @@ export const pageQuery = graphql`
           remark: childMarkdownRemark {
             id
             html
-            frontmatter {
+            remoteImage: childRemoteimage {
+              image {
+                childImageSharp {
+                  fluid(maxWidth: 738) {
+                    tracedSVG
+                    aspectRatio
+                    src
+                    srcSet
+                    srcWebp
+                    srcSetWebp
+                    sizes
+                  }
+                }
+              }
+            }
+            og: childOpengraph {
+              url
+              description
               title
+              publisher
+              image {
+                childImageSharp {
+                  fluid(maxWidth: 738) {
+                    tracedSVG
+                    aspectRatio
+                    src
+                    srcSet
+                    srcWebp
+                    srcSetWebp
+                    sizes
+                  }
+                }
+              }
+            }
+            frontmatter {
               layout
+              title
+              link
               date(formatString: "YYYY/MM/DD")
-              publishDate: date(formatString: "YYYY/MM/DD")
+              publishDate: date
               category
               tags
               description
-              link
+              captions
+              remoteImage
+              image {
+                childImageSharp {
+                  fluid(maxWidth: 738) {
+                    tracedSVG
+                    aspectRatio
+                    src
+                    srcSet
+                    srcWebp
+                    srcSetWebp
+                    sizes
+                  }
+                }
+              }
+              images {
+                childImageSharp {
+                  fixed(width: 708, height: 555, cropFocus: ATTENTION) {
+                    tracedSVG
+                    aspectRatio
+                    src
+                    srcSet
+                    srcWebp
+                    srcSetWebp
+                  }
+                }
+              }
             }
           }
         }

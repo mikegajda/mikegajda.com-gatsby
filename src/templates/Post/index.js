@@ -132,10 +132,11 @@ export const pageQuery = graphql`
     post: allFile(filter: { absolutePath: { eq: $absolutePath } }) {
       edges {
         node {
-          id
-          relativePath: relativePath
-          relativeDirectory: relativeDirectory
+          id: absolutePath
+          relativePath
+          relativeDirectory
           absolutePath
+          sourceInstanceName
           name
           ext
           birthTime(formatString: "YYYY-MM-DD hh:mm:ss")
@@ -143,14 +144,7 @@ export const pageQuery = graphql`
           remark: childMarkdownRemark {
             id
             html
-            frontmatter {
-              layout
-              title
-              date(formatString: "YYYY/MM/DD")
-              publishDate: date(formatString: "YYYY/MM/DD")
-              category
-              tags
-              description
+            remoteImage: childRemoteimage {
               image {
                 childImageSharp {
                   fluid(maxWidth: 738) {
@@ -161,6 +155,62 @@ export const pageQuery = graphql`
                     srcWebp
                     srcSetWebp
                     sizes
+                  }
+                }
+              }
+            }
+            og: childOpengraph {
+              url
+              description
+              title
+              publisher
+              image {
+                childImageSharp {
+                  fluid(maxWidth: 738) {
+                    tracedSVG
+                    aspectRatio
+                    src
+                    srcSet
+                    srcWebp
+                    srcSetWebp
+                    sizes
+                  }
+                }
+              }
+            }
+            frontmatter {
+              layout
+              title
+              link
+              date(formatString: "YYYY/MM/DD")
+              publishDate: date
+              category
+              tags
+              description
+              captions
+              remoteImage
+              image {
+                childImageSharp {
+                  fluid(maxWidth: 738) {
+                    tracedSVG
+                    aspectRatio
+                    src
+                    srcSet
+                    srcWebp
+                    srcSetWebp
+                    sizes
+                  }
+                }
+              }
+              images {
+                childImageSharp {
+                  fixed(width: 708, height: 555, cropFocus: ATTENTION) {
+                    tracedSVG
+                    aspectRatio
+                    src
+                    srcSet
+                    srcWebp
+                    srcSetWebp
                   }
                 }
               }

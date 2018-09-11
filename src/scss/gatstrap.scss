@@ -152,4 +152,19 @@ div.footnotes a {
   nav {
     box-shadow: 0;
   }
+
+}
+
+@include media-breakpoint-up(lg) {
+  .container-wide {
+    margin: auto;
+    max-width: 900px;
+  }
+}
+
+@include media-breakpoint-up(xl) {
+  .container-wide {
+    margin: auto;
+    max-width: 1024px;
+  }
 }
