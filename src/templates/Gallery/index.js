@@ -46,7 +46,7 @@ export const Gallery = node => {
   }
 
   return (
-    <article className="card shadow my-4">
+    <article className="container container-wide p-0 card my-4 shadow">
       <div className="card-header">
         <Link
           className="text-muted"
