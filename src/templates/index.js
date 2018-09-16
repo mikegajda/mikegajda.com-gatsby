@@ -40,15 +40,18 @@ const NavLink = props => {
 }
 
 const BlogIndex = ({ data, pathContext }) => {
-  console.log('DATA BLOG INDEX', data)
+  console.log('DATA BLOG INDEX', data, pathContext)
   const posts = pathContext.group
 
   const { group, index, first, last, pageCount } = pathContext
-  const previousUrl = index - 1 == 1 ? '' : (index - 1).toString()
-  const nextUrl = (index + 1).toString()
+  const previousUrl =
+    index - 1 == 1
+      ? '' + pathContext.pathPrefix
+      : pathContext.pathPrefix + '/' + (index - 1).toString()
+  const nextUrl = pathContext.pathPrefix + '/' + (index + 1).toString()
 
   return (
-    <Layout location={index === 0 ? '/' : index.toString()}>
+    <Layout location={'/'}>
       <Meta site={get(data, 'site.meta')} />
       <div className="px-0">
         {posts.map(function(post) {

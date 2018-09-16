@@ -183,6 +183,44 @@ exports.createPages = ({ graphql, actions }) => {
             pathPrefix: '', // This is optional and defaults to an empty string if not used
             context: {}, // This is optional and defaults to an empty object if not used
           })
+
+          createPaginatedPages({
+            edges: posts.filter(
+              post =>
+                post.node.remark.frontmatter.layout === 'OGLink' ||
+                post.node.remark.frontmatter.layout === 'Post'
+            ),
+            createPage: createPage,
+            pageTemplate: 'src/templates/index.js',
+            pageLength: 5, // This is optional and defaults to 10 if not used
+            pathPrefix: 'posts', // This is optional and defaults to an empty string if not used
+            context: {}, // This is optional and defaults to an empty object if not used
+          })
+
+          createPaginatedPages({
+            edges: posts.filter(
+              post => post.node.remark.frontmatter.layout === 'Youtube'
+            ),
+            createPage: createPage,
+            pageTemplate: 'src/templates/index.js',
+            pageLength: 5, // This is optional and defaults to 10 if not used
+            pathPrefix: 'videos', // This is optional and defaults to an empty string if not used
+            context: {}, // This is optional and defaults to an empty object if not used
+          })
+
+          createPaginatedPages({
+            edges: posts.filter(
+              post =>
+                post.node.remark.frontmatter.layout === 'Image' ||
+                post.node.remark.frontmatter.layout === 'Gallery'
+            ),
+            createPage: createPage,
+            pageTemplate: 'src/templates/index.js',
+            pageLength: 5, // This is optional and defaults to 10 if not used
+            pathPrefix: 'images', // This is optional and defaults to an empty string if not used
+            context: {}, // This is optional and defaults to an empty object if not used
+          })
+
           posts.forEach(edge => {
             let node = edge.node
 
