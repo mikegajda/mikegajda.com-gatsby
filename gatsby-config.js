@@ -97,7 +97,7 @@ module.exports = {
     'gatsby-plugin-sitemap',
     'gatsby-plugin-twitter',
     {
-      resolve: 'gatsby-plugin-feed',
+      resolve: `gatsby-plugin-feed`,
       options: {
         query: `
           {
@@ -113,11 +113,11 @@ module.exports = {
         `,
         feeds: [
           {
-            serialize: ({ query: { site, allFile } }) => {
-              return allFile.edges.map(edge => {
+            serialize: ({ query: { site, allMarkdownRemark } }) => {
+              return allMarkdownRemark.edges.map(edge => {
                 return Object.assign({}, edge.node.frontmatter, {
                   description: edge.node.excerpt,
-                  url: site.siteMetadata.siteUrl + `/posts/${edge.node.name}`,
+                  url: site.siteMetadata.siteUrl + edge.node.id,
                   guid: site.siteMetadata.siteUrl + edge.node.id,
                   custom_elements: [{ 'content:encoded': edge.node.html }],
                 })
@@ -125,99 +125,23 @@ module.exports = {
             },
             query: `
               {
-            allFile(
-              filter: { internal: { mediaType: { in: ["text/markdown"] } } }
-            ) {
-              edges {
-                node {
-                  id: absolutePath
-                  relativePath
-                  relativeDirectory
-                  absolutePath
-                  sourceInstanceName
-                  name
-                  ext
-                  birthTime(formatString: "YYYY-MM-DD hh:mm:ss")
-                  changeTime(formatString: "YYYY-MM-DD hh:mm:ss")
-                  remark: childMarkdownRemark {
-                    id
-                    html
-                    remoteImage: childRemoteimage {
-                      image {
-                        childImageSharp {
-                          fluid(maxWidth: 738) {
-                            tracedSVG
-                            aspectRatio
-                            src
-                            srcSet
-                            srcWebp
-                            srcSetWebp
-                            sizes
-                          }
-                        }
-                      }
-                    }
-                    og: childOpengraph {
-                      url
-                      description
-                      title
-                      publisher
-                      image {
-                        childImageSharp {
-                          fluid(maxWidth: 738) {
-                            tracedSVG
-                            aspectRatio
-                            src
-                            srcSet
-                            srcWebp
-                            srcSetWebp
-                            sizes
-                          }
-                        }
-                      }
-                    }
-                    frontmatter {
-                      layout
-                      title
-                      link
-                      date(formatString: "YYYY/MM/DD")
-                      publishDate: date
-                      category
-                      tags
-                      description
-                      captions
-                      remoteImage
-                      image {
-                        childImageSharp {
-                          fluid(maxWidth: 738) {
-                            tracedSVG
-                            aspectRatio
-                            src
-                            srcSet
-                            srcWebp
-                            srcSetWebp
-                            sizes
-                          }
-                        }
-                      }
-                      images {
-                        childImageSharp {
-                          fixed(width: 708, height: 555, cropFocus: ATTENTION) {
-                            tracedSVG
-                            aspectRatio
-                            src
-                            srcSet
-                            srcWebp
-                            srcSetWebp
-                          }
-                        }
+                allMarkdownRemark(
+                  limit: 1000,
+                  sort: { order: DESC, fields: [frontmatter___date] }
+                ) {
+                  edges {
+                    node {
+                      id
+                      excerpt
+                      html
+                      frontmatter {
+                        title
+                        date
                       }
                     }
                   }
                 }
               }
-            }
-          }
             `,
             output: '/rss.xml',
           },
