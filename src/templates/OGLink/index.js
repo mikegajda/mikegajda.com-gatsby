@@ -10,7 +10,7 @@ import Layout from 'components/Layout'
 import './style.scss'
 
 export const OGLink = (node, shouldShowPermalink) => {
-  console.log('OGLink received this node=', node)
+  console.info('OGLink received this node=', node)
   const html = node.remark.html
   const {
     category,
@@ -29,7 +29,7 @@ export const OGLink = (node, shouldShowPermalink) => {
   const remoteImage = node.remark.remoteImage
     ? node.remark.remoteImage.image.childImageSharp
     : undefined
-  console.log('node og image =', image)
+  console.info('node og image =', image)
   const url = `${node.sourceInstanceName}/${node.relativeDirectory}/${
     node.name
   }`
@@ -112,7 +112,7 @@ export const OGLink = (node, shouldShowPermalink) => {
 }
 
 const OGLinkContainer = ({ data, options }) => {
-  console.log('DATA = ', data)
+  console.info('DATA = ', data)
   const {
     category,
     tags,
