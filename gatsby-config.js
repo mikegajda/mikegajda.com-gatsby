@@ -229,7 +229,7 @@ module.exports = {
       options: {
         mergeSecurityHeaders: true,
         mergeLinkHeaders: true,
-        mergeCachingHeaders: false,
+        mergeCachingHeaders: true,
       },
     },
   ],
