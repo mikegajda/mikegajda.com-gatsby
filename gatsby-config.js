@@ -146,9 +146,9 @@ module.exports = {
                       content += `<img src=${node.remark.og.imageUrl}>`
                     }
                     if (node.remark.og && node.remark.og.description) {
-                      content += `<p><blockquote>${
+                      content += `<blockquote><p>${
                         node.remark.og.description
-                      }</blockquote></p>`
+                      }</p></blockquote>`
                     }
                     content += node.remark.html
                     return Object.assign({}, node.frontmatter, {
