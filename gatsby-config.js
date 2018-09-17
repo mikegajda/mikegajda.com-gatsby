@@ -148,7 +148,7 @@ module.exports = {
                     if (node.remark.og && node.remark.og.description) {
                       content += `<p><blockquote>${
                         node.remark.og.description
-                      }/blockquote></p>`
+                      }</blockquote></p>`
                     }
                     content += node.remark.html
                     return Object.assign({}, node.frontmatter, {
