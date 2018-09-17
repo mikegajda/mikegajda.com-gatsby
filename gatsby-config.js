@@ -132,7 +132,7 @@ module.exports = {
                       custom_elements: [
                         { 'content:encoded': node.remark.html },
                       ],
-                      date: node.remark.publishDate,
+                      date: node.remark.frontmatter.publishDate,
                       ttl: 1,
                     })
                   // case 'LinkPost':
@@ -169,7 +169,7 @@ module.exports = {
                   case 'Youtube':
                     if (node.remark.link) {
                       let youtubeKey = node.remark.link.split('?q')[1]
-                      content += `<iframe class="embed-responsive-item" src=https://www.youtube.com/embed/${youtubeKey} allowfullscreen />`
+                      content += `<iframe class="embed-responsive-item" src="https://www.youtube.com/embed/${youtubeKey}" allowfullscreen />`
                     }
                     content += node.remark.html
                     return Object.assign({}, node.frontmatter, {
