@@ -113,41 +113,184 @@ module.exports = {
         `,
         feeds: [
           {
-            serialize: ({ query: { site, allMarkdownRemark } }) => {
-              return allMarkdownRemark.edges.map(edge => {
-                return Object.assign({}, edge.node.frontmatter, {
-                  description: edge.node.excerpt,
-                  url: site.siteMetadata.siteUrl + edge.node.id,
-                  guid: site.siteMetadata.siteUrl + edge.node.id,
-                  custom_elements: [{ 'content:encoded': edge.node.html }],
-                })
+            serialize: ({ query: { site, allFile } }) => {
+              return allFile.edges.map(edge => {
+                let node = edge.node
+                switch (node.remark.frontmatter.layout) {
+                  case 'Post':
+                    return Object.assign({}, node.frontmatter, {
+                      title: node.remark.frontmatter.title,
+                      description: node.remark.html,
+                      url: site.siteMetadata.siteUrl + `/posts/${node.name}`,
+                      guid: site.siteMetadata.siteUrl + node.id,
+                      custom_elements: [
+                        { 'content:encoded': node.remark.html },
+                      ],
+                      date: node.remark.publishDate,
+                      ttl: 1,
+                    })
+                  // case 'LinkPost':
+                  //   return LinkPost(post.node)
+                  // case 'Image':
+                  //   return Image(post.node)
+                  // case 'Gallery':
+                  //   return Gallery(post.node)
+                  case 'OGLink':
+                    return Object.assign({}, node.frontmatter, {
+                      title:
+                        node.remark.og && node.remark.og.title
+                          ? node.remark.og.title
+                          : node.remark.frontmatter.title,
+                      description: node.remark.html,
+                      url:
+                        node.remark.og && node.remark.og.url
+                          ? node.remark.og.url
+                          : site.siteMetadata.siteUrl + `/posts/${node.name}`,
+                      guid: site.siteMetadata.siteUrl + node.id,
+                      custom_elements: [
+                        { 'content:encoded': node.remark.html },
+                      ],
+                      date: node.remark.publishDate,
+                      ttl: 1,
+                    })
+                  case 'Youtube':
+                    return Object.assign({}, node.frontmatter, {
+                      title:
+                        node.remark.og && node.remark.og.title
+                          ? node.remark.og.title
+                          : node.remark.frontmatter.title,
+                      description: node.remark.html,
+                      url:
+                        node.remark.og && node.remark.og.url
+                          ? node.remark.og.url
+                          : site.siteMetadata.siteUrl + `/posts/${node.name}`,
+                      guid: site.siteMetadata.siteUrl + node.id,
+                      custom_elements: [
+                        { 'content:encoded': node.remark.html },
+                      ],
+                      date: node.remark.publishDate,
+                      ttl: 1,
+                    })
+                  default:
+                    return Object.assign({}, node.frontmatter, {
+                      title:
+                        node.remark.og && node.remark.og.title
+                          ? node.remark.og.title
+                          : node.remark.frontmatter.title,
+                      description: node.remark.html,
+                      url: site.siteMetadata.siteUrl + `/posts/${node.name}`,
+                      guid: site.siteMetadata.siteUrl + node.id,
+                      custom_elements: [
+                        { 'content:encoded': node.remark.html },
+                      ],
+                      date: node.remark.publishDate,
+                      ttl: 1,
+                    })
+                }
               })
             },
             query: `
-              {
-                allMarkdownRemark(
-                  limit: 1000,
-                  sort: { order: DESC, fields: [frontmatter___date] }
-                ) {
-                  edges {
-                    node {
-                      id
-                      excerpt
-                      html
-                      frontmatter {
-                        title
-                        date
+          {
+            allFile(
+              filter: { internal: { mediaType: { in: ["text/markdown"] } } }
+            ) {
+              edges {
+                node {
+                  id: absolutePath
+                  relativePath
+                  relativeDirectory
+                  absolutePath
+                  sourceInstanceName
+                  name
+                  ext
+                  birthTime(formatString: "YYYY-MM-DD hh:mm:ss")
+                  changeTime(formatString: "YYYY-MM-DD hh:mm:ss")
+                  remark: childMarkdownRemark {
+                    id
+                    html
+                    remoteImage: childRemoteimage {
+                      image {
+                        childImageSharp {
+                          fluid(maxWidth: 738) {
+                            tracedSVG
+                            aspectRatio
+                            src
+                            srcSet
+                            srcWebp
+                            srcSetWebp
+                            sizes
+                          }
+                        }
+                      }
+                    }
+                    og: childOpengraph {
+                      url
+                      description
+                      title
+                      publisher
+                      image {
+                        childImageSharp {
+                          fluid(maxWidth: 738) {
+                            tracedSVG
+                            aspectRatio
+                            src
+                            srcSet
+                            srcWebp
+                            srcSetWebp
+                            sizes
+                          }
+                        }
+                      }
+                    }
+                    frontmatter {
+                      layout
+                      title
+                      link
+                      date(formatString: "YYYY/MM/DD")
+                      publishDate: date
+                      category
+                      tags
+                      description
+                      captions
+                      remoteImage
+                      image {
+                        childImageSharp {
+                          fluid(maxWidth: 738) {
+                            tracedSVG
+                            aspectRatio
+                            src
+                            srcSet
+                            srcWebp
+                            srcSetWebp
+                            sizes
+                          }
+                        }
+                      }
+                      images {
+                        childImageSharp {
+                          fixed(width: 708, height: 555, cropFocus: ATTENTION) {
+                            tracedSVG
+                            aspectRatio
+                            src
+                            srcSet
+                            srcWebp
+                            srcSetWebp
+                          }
+                        }
                       }
                     }
                   }
                 }
               }
-            `,
+            }
+          }
+        `,
             output: '/rss.xml',
           },
         ],
       },
     },
+
     {
       resolve: 'gatsby-plugin-netlify',
       options: {
