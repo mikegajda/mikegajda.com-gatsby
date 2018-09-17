@@ -208,39 +208,11 @@ module.exports = {
                   remark: childMarkdownRemark {
                     id
                     html
-                    remoteImage: childRemoteimage {
-                      image {
-                        childImageSharp {
-                          fluid(maxWidth: 738) {
-                            tracedSVG
-                            aspectRatio
-                            src
-                            srcSet
-                            srcWebp
-                            srcSetWebp
-                            sizes
-                          }
-                        }
-                      }
-                    }
                     og: childOpengraph {
                       url
                       description
                       title
                       publisher
-                      image {
-                        childImageSharp {
-                          fluid(maxWidth: 738) {
-                            tracedSVG
-                            aspectRatio
-                            src
-                            srcSet
-                            srcWebp
-                            srcSetWebp
-                            sizes
-                          }
-                        }
-                      }
                     }
                     frontmatter {
                       layout
@@ -251,33 +223,6 @@ module.exports = {
                       category
                       tags
                       description
-                      captions
-                      remoteImage
-                      image {
-                        childImageSharp {
-                          fluid(maxWidth: 738) {
-                            tracedSVG
-                            aspectRatio
-                            src
-                            srcSet
-                            srcWebp
-                            srcSetWebp
-                            sizes
-                          }
-                        }
-                      }
-                      images {
-                        childImageSharp {
-                          fixed(width: 708, height: 555, cropFocus: ATTENTION) {
-                            tracedSVG
-                            aspectRatio
-                            src
-                            srcSet
-                            srcWebp
-                            srcSetWebp
-                          }
-                        }
-                      }
                     }
                   }
                 }

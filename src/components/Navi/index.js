@@ -39,6 +39,29 @@ class Navi extends React.Component {
                 </Link>
               </li>
             </ul>
+            <ul class="navbar-nav">
+              <li class="nav-item active">
+                <a className="nav-link" href="https://twitter.com/mikendever">
+                  <span className="d-md-none mr-2">Twitter</span>
+                  <i class="fa fa-twitter" aria-hidden="true" />
+                </a>
+              </li>
+              <li class="nav-item active">
+                <a className="nav-link" href="https://github.com/mikegajda">
+                  <span className="d-md-none mr-2">Github</span>
+                  <i class="fa fa-github" aria-hidden="true" />
+                </a>
+              </li>
+              <li class="nav-item active">
+                <a
+                  className="nav-link"
+                  href="https://www.linkedin.com/in/mgajda"
+                >
+                  <span className="d-md-none mr-2">LinkedIn</span>
+                  <i class="fa fa-linkedin-square" aria-hidden="true" />
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
       </nav>
