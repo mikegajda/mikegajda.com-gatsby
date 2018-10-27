@@ -1,5 +1,5 @@
 ---
-title: 'egyn Kelly is again in trouble, but NBC colleagues rejected her long before'
+title: 'Megyn Kelly is again in trouble, but NBC colleagues rejected her long before'
 layout: OGLink
 date: 2018-10-27T20:18:31.253Z
 link: >-
