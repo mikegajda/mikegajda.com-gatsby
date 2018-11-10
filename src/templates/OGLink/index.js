@@ -10,7 +10,7 @@ import Layout from 'components/Layout'
 import './style.scss'
 
 export const OGLink = (node, shouldShowPermalink) => {
-  //console.info('OGLink received this node=', node)
+  console.info('OGLink received this node=', node)
   const html = node.remark.html
   const {
     category,
@@ -41,7 +41,11 @@ export const OGLink = (node, shouldShowPermalink) => {
   return (
     <article className="container p-0 card my-4" key={node.absolutePath}>
       {cardImageTop ? (
-        <a href={og.url} className="text-muted card-img-top" target="_blank">
+        <a
+          href={og && og.url ? og.url : link}
+          className="text-muted card-img-top"
+          target="_blank"
+        >
           <Img fluid={cardImageTop.fluid} className={'d-block card-img-top'} />
           <div class="ogimage-badge clearfix">
             <time
@@ -58,13 +62,13 @@ export const OGLink = (node, shouldShowPermalink) => {
       )}
 
       <div className="card-header oglink-title">
-        <a href={og.url ? og.url : link} className="">
+        <a href={og && og.url ? og.url : link} className="">
           <div className="h3 mb-0">
-            {og.title && og.title !== 'Terms of Service Violation'
+            {og && og.title && og.title !== 'Terms of Service Violation'
               ? og.title
               : title}
           </div>
-          {og.publisher ? (
+          {og && og.publisher ? (
             <div className="text-muted" style={{ fontSize: '1rem' }}>
               <small>
                 <i
@@ -81,7 +85,7 @@ export const OGLink = (node, shouldShowPermalink) => {
         </a>
       </div>
       <div className="card-body">
-        {og.description ? (
+        {og && og.description ? (
           <blockquote className="p-3 rounded-right">
             {og.description}
           </blockquote>
