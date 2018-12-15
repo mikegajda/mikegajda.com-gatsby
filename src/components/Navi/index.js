@@ -26,16 +26,25 @@ class Navi extends React.Component {
               <li class="nav-item active">
                 <Link className="nav-link" to="/posts">
                   Posts
+                  <i
+                    class="fa fa-file-text d-md-none ml-2"
+                    aria-hidden="true"
+                  />
                 </Link>
               </li>
               <li class="nav-item active">
                 <Link className="nav-link" to="/images">
                   Images
+                  <i class="fa fa-camera d-md-none ml-2" aria-hidden="true" />
                 </Link>
               </li>
               <li class="nav-item active">
                 <Link className="nav-link" to="/videos">
                   Videos
+                  <i
+                    class="fa fa-video-camera d-md-none ml-2"
+                    aria-hidden="true"
+                  />
                 </Link>
               </li>
             </ul>

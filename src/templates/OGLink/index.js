@@ -30,9 +30,9 @@ export const OGLink = (node, shouldShowPermalink) => {
     ? node.remark.remoteImage.image.childImageSharp
     : undefined
   //console.info('node og image =', image)
-  const url = `${node.sourceInstanceName}/${node.relativeDirectory}/${
-    node.name
-  }`
+  const url = `/${node.sourceInstanceName}/${node.name}`
+
+  console.log('url = ', url)
 
   let prettyLink = link.replace(/(^\w+:|^)\/\//, '').replace(/^www\./, '')
 
@@ -48,13 +48,13 @@ export const OGLink = (node, shouldShowPermalink) => {
         >
           <Img fluid={cardImageTop.fluid} className={'d-block card-img-top'} />
           <div class="ogimage-badge clearfix">
-            <time
+            <a
               className="badge badge-light p-2 text-muted float-right"
-              dateTime={date}
+              href={url}
             >
               <i class="fa fa-clock-o pr-1" aria-hidden="true" />
               {date}
-            </time>
+            </a>
           </div>
         </a>
       ) : (
