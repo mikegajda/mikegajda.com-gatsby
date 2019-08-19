@@ -1,6 +1,6 @@
 ---
 title: A Comprehensive Self-Driving Car Test
-layout: OGLink
+layout: LinkPost
 link: https://m.cacm.acm.org/magazines/2018/2/224621-a-comprehensive-self-driving-car-test/fulltext
 description: Should self-driving cars have to pass a driving test?
 date: '2018-01-25T12:00:00.000Z'

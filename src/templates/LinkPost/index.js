@@ -9,6 +9,27 @@ import Footer from 'components/Footer'
 import Layout from 'components/Layout'
 import './style.scss'
 
+const metascraper = require('metascraper')([
+  require('metascraper-image')(),
+  require('metascraper-title')(),
+  require('metascraper-date')(),
+  require('metascraper-url')(),
+  require('metascraper-description')(),
+  require('metascraper-publisher')(),
+  require('metascraper-author')(),
+])
+
+function getMetaData(url) {
+  ;(async () => {
+    const { body: html, url } = await fetch(url)
+    const metadata = await metascraper({
+      html,
+      url,
+    })
+    return metadata
+  })()
+}
+
 export const LinkPost = node => {
   console.log('LinkPost received this node=', node)
   const html = node.remark.html
@@ -20,30 +41,59 @@ export const LinkPost = node => {
     path,
     date,
     image,
+    excerpt,
     link,
   } = node.remark.frontmatter
   const url = `/posts/${node.name}`
 
-  let prettyLink = link.replace(/(^\w+:|^)\/\//, '').replace(/^www\./, '')
+  let prettyLink = link
+    .replace(/(^\w+:|^)\/\//, '')
+    .replace(/^www\./, '')
+    .split(/[/?#]/)[0]
+
+  let metadata = (async () => {
+    return getMetaData(link).then(metadata => metadata)
+  })()
+  console.log('metadata', metadata)
 
   return (
-    <article className="card my-4" key={node.absolutePath}>
-      <div className="card-header linkpost-card-header">
-        <a href={link} className="text-muted">
-          <small>
-            <i class="fa fa-external-link mr-1" aria-hidden="true" />
-          </small>
-          {prettyLink}
+    <article className="card my-4 container p-0" key={node.absolutePath}>
+      <div className="card-header oglink-title">
+        <a href={link} target="_blank" className="">
+          <div className="h3 mb-0">{title}</div>
+
+          <div className="text-muted" style={{ fontSize: '1rem' }}>
+            <small>
+              <i
+                className="fa fa-external-link mr-1"
+                style={{ fontSize: '.75rem' }}
+                aria-hidden="true"
+              />
+            </small>
+            {prettyLink}
+          </div>
         </a>
+        {excerpt && excerpt !== undefined && excerpt !== '' ? (
+          <blockquote className={'my-2 rounded py-2 card-header-blockquote'}>
+            <small className={'muted m-0 p-0 card-header-blockquote-excerpt'}>
+              Excerpt
+            </small>
+            <div dangerouslySetInnerHTML={{ __html: excerpt }} />
+          </blockquote>
+        ) : (
+          ''
+        )}
       </div>
-      <div className="card-body">
-        <h1 className="">
-          <Link className="" to={url}>
-            {title}
-          </Link>
-        </h1>
-        <div className="content" dangerouslySetInnerHTML={{ __html: html }} />
-      </div>
+      {html && html !== undefined && html !== '' ? (
+        <div className="card-body">
+          <div className="content" dangerouslySetInnerHTML={{ __html: html }} />
+          <div>
+            <a href={url}>Permalink</a>
+          </div>
+        </div>
+      ) : (
+        ''
+      )}
     </article>
   )
 }
@@ -80,42 +130,6 @@ const LinkPostContainer = ({ data, options }) => {
 
 export default LinkPostContainer
 
-const getDescription = body => {
-  body = body.replace(/<blockquote>/g, '<blockquote class="blockquote">')
-  if (body.match('<!--more-->')) {
-    body = body.split('<!--more-->')
-    if (typeof body[0] !== 'undefined') {
-      return body[0]
-    }
-  }
-  return body
-}
-
-const Button = ({ path, label, primary }) => (
-  <Link className="readmore" to={path}>
-    <span
-      className={`btn btn-outline-primary btn-block ${
-        primary ? 'btn-outline-primary' : 'btn-outline-secondary'
-      }`}
-    >
-      {label}
-    </span>
-  </Link>
-)
-
-const Badges = ({ items, primary }) =>
-  map(items, (item, i) => {
-    return (
-      <span
-        className={`p-2 badge ${primary ? 'badge-primary' : 'badge-white'}`}
-        key={i}
-      >
-        <i class="fa fa-tags" />
-        {item}
-      </span>
-    )
-  })
-
 export const pageQuery = graphql`
   query LinkPostByPath($absolutePath: String!) {
     site {
@@ -151,6 +165,7 @@ export const pageQuery = graphql`
               tags
               description
               link
+              excerpt
             }
           }
         }

@@ -1,6 +1,6 @@
 ---
 title: Ethical Clothes
-layout: OGLink
+layout: LinkPost
 date: 2018-09-04T17:15:41.840Z
 link: >-
   https://www.fastcompany.com/90217759/a-complete-guide-to-buying-ethical-clothes-on-a-budget

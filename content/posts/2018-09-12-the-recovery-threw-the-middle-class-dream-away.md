@@ -1,6 +1,6 @@
 ---
 title: The Recovery Threw the Middle-Class Dream Away
-layout: OGLink
+layout: LinkPost
 date: 2018-09-12T12:33:23.174Z
 link: >-
   https://www.nytimes.com/2018/09/12/business/middle-class-financial-crisis.html?action=click&module=Top%20Stories&pgtype=Homepage

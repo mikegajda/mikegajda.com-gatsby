@@ -36,62 +36,32 @@ export const OGLink = (node, shouldShowPermalink) => {
 
   let prettyLink = link.replace(/(^\w+:|^)\/\//, '').replace(/^www\./, '')
 
+  let websiteHostname = link
+    .replace(/(^\w+:|^)\/\//, '')
+    .replace(/^www\./, '')
+    .split(/[/?#]/)[0]
+
   let cardImageTop = remoteImage ? remoteImage : image ? image : null
 
   return (
     <article className="container p-0 card my-4" key={node.absolutePath}>
-      {cardImageTop ? (
-        <a
-          href={og && og.url ? og.url : link}
-          className="text-muted card-img-top"
-          target="_blank"
-        >
-          <Img fluid={cardImageTop.fluid} className={'d-block card-img-top'} />
-          <div class="ogimage-badge clearfix">
-            <a
-              className="badge badge-light p-2 text-muted float-right"
-              href={url}
-            >
-              <i class="fa fa-clock-o pr-1" aria-hidden="true" />
-              {date}
-            </a>
-          </div>
-        </a>
-      ) : (
-        ''
-      )}
-
       <div className="card-header oglink-title">
-        <a href={og && og.url ? og.url : link} className="">
-          <div className="h3 mb-0">
-            {og && og.title && og.title !== 'Terms of Service Violation'
-              ? og.title
-              : title}
+        <a href={link} className="">
+          <div className="h3 mb-0">{title}</div>
+
+          <div className="text-muted" style={{ fontSize: '1rem' }}>
+            <small>
+              <i
+                class="fa fa-external-link mr-1"
+                style={{ fontSize: '.75rem' }}
+                aria-hidden="true"
+              />
+            </small>
+            {websiteHostname}
           </div>
-          {og && og.publisher ? (
-            <div className="text-muted" style={{ fontSize: '1rem' }}>
-              <small>
-                <i
-                  class="fa fa-external-link mr-1"
-                  style={{ fontSize: '.75rem' }}
-                  aria-hidden="true"
-                />
-              </small>
-              {og.publisher}
-            </div>
-          ) : (
-            ''
-          )}
         </a>
       </div>
       <div className="card-body">
-        {og && og.description ? (
-          <blockquote className="p-3 rounded-right">
-            {og.description}
-          </blockquote>
-        ) : (
-          ''
-        )}
         {html ? <div dangerouslySetInnerHTML={{ __html: html }} /> : ''}
         {shouldShowPermalink ? (
           <div

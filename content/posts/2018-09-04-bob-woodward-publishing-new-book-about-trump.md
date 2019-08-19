@@ -1,6 +1,6 @@
 ---
 title: Bob Woodward Publishing New Book About Trump
-layout: OGLink
+layout: LinkPost
 date: 2018-09-05T02:13:30.246Z
 link: >-
   https://www.washingtonpost.com/politics/bob-woodwards-new-book-reveals-a-nervous-breakdown-of-trumps-presidency/2018/09/04/b27a389e-ac60-11e8-a8d7-0f63ab8b1370_story.html?utm_term=.d7ac685ff720

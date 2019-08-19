@@ -1,6 +1,6 @@
 ---
 title: Can Mark Zuckerberg Fix Facebook Before It Breaks Democracy?
-layout: OGLink
+layout: LinkPost
 date: 2018-09-15T12:53:06.809Z
 link: >-
   https://www.newyorker.com/magazine/2018/09/17/can-mark-zuckerberg-fix-facebook-before-it-breaks-democracy

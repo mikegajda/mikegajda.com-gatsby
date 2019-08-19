@@ -13,3 +13,15 @@
     width:    -moz-calc(100% - 100px);
     width:         calc(100% - 100px);
 }
+
+blockquote {
+  border-radius: 0.25rem;
+}
+
+.card-header-blockquote {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.card-header-blockquote-excerpt {
+  font-size: .7rem;
+}

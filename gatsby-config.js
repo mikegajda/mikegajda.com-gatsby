@@ -85,8 +85,6 @@ module.exports = {
         trackingId: '',
       },
     },
-    `gatsby-transformer-open-graph`,
-    `gatsby-transformer-remote-image`,
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
     'gatsby-plugin-catch-links',
@@ -239,6 +237,7 @@ module.exports = {
                       publishDate: date
                       category
                       tags
+                      excerpt
                       description
                     }
                   }

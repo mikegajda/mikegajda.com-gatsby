@@ -1,6 +1,6 @@
 ---
 title: Walmart Finally Makes It to the Big Apple
-layout: OGLink
+layout: LinkPost
 date: 2018-09-17T02:35:05.044Z
 link: 'https://www.nytimes.com/2018/09/16/business/walmart-jet-nyc.html'
 ---
