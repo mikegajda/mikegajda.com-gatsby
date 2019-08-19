@@ -222,13 +222,6 @@ module.exports = {
                   remark: childMarkdownRemark {
                     id
                     html
-                    og: childOpengraph {
-                      url
-                      description
-                      title
-                      publisher
-                      imageUrl
-                    }
                     frontmatter {
                       layout
                       title

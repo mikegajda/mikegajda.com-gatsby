@@ -144,40 +144,6 @@ export const pageQuery = graphql`
           remark: childMarkdownRemark {
             id
             html
-            remoteImage: childRemoteimage {
-              image {
-                childImageSharp {
-                  fluid(maxWidth: 738) {
-                    tracedSVG
-                    aspectRatio
-                    src
-                    srcSet
-                    srcWebp
-                    srcSetWebp
-                    sizes
-                  }
-                }
-              }
-            }
-            og: childOpengraph {
-              url
-              description
-              title
-              publisher
-              image {
-                childImageSharp {
-                  fluid(maxWidth: 738) {
-                    tracedSVG
-                    aspectRatio
-                    src
-                    srcSet
-                    srcWebp
-                    srcSetWebp
-                    sizes
-                  }
-                }
-              }
-            }
             frontmatter {
               layout
               title
